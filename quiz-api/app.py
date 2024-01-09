@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from utils.jwt_utils import build_token
 import hashlib
+from routes.questions import questions 
 
 
 app = Flask(__name__)
@@ -29,7 +30,8 @@ def Login():
 		return {'token': token}, 200
 	else : 
 		return 'Unauthorized', 401 
-
+	
+app.register_blueprint(questions)
 
 if __name__ == "__main__":
     app.run()
