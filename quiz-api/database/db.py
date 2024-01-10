@@ -21,6 +21,47 @@ def saveQuestion(question):
     finally:
         db_connection.close()
 
+def updateQuestion(data,questionId):
+    try:
+        db_connection = sqlite3.connect('./quiz.db')
+        cur = db_connection.cursor()
+
+        possible_answers_json = json.dumps(data['possibleAnswers'], ensure_ascii=False) if not isinstance(data['possibleAnswers'], str) else data['possibleAnswers']
+
+        cur.execute("""
+            UPDATE questions SET title = ?, text = ?, image = ?, position = ?, possibleAnswers = ?
+            WHERE ID = ?
+        """, (data['title'], data['text'], data['image'], data['position'], possible_answers_json, questionId))
+        
+        db_connection.commit()
+    except sqlite3.Error as e:
+        db_connection.rollback()
+    finally:
+        db_connection.close()
+
+def removeQuestion(questionId):
+    try:
+        db_connection = sqlite3.connect('./quiz.db')
+        cur = db_connection.cursor()
+
+        cur.execute("DELETE FROM questions WHERE ID = ?", (questionId,))
+        db_connection.commit()
+    except sqlite3.Error as e:
+        db_connection.rollback()
+    finally:
+        db_connection.close()
+
+def removeAllQuestion():
+    try:
+        db_connection = sqlite3.connect('./quiz.db')
+        cur = db_connection.cursor()
+        
+        cur.execute("DELETE FROM questions")
+        db_connection.commit()
+    except sqlite3.Error as e:
+        db_connection.rollback()
+    finally:
+        db_connection.close()
 
 
 
