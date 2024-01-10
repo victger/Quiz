@@ -55,13 +55,10 @@ def removeAllQuestion():
     try:
         db_connection = sqlite3.connect('./quiz.db')
         cur = db_connection.cursor()
-        
+
         cur.execute("DELETE FROM questions")
         db_connection.commit()
     except sqlite3.Error as e:
         db_connection.rollback()
     finally:
         db_connection.close()
-
-
-
