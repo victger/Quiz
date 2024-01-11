@@ -1,18 +1,16 @@
 import sqlite3
-from model.question import python_to_json
-import json
+from model.models import generate_Insert_request
 
 def saveQuestion(question):
-    
     db_connection = sqlite3.connect('./quiz.db')  
     cur = db_connection.cursor()
         
     try:
         cur.execute("begin")
-        possible_answers_json = json.dumps(question['possibleAnswers'],ensure_ascii=False)
-        cur.execute("INSERT INTO questions (position, title, text, image, possibleAnswers) VALUES (?, ?, ?, ?, ?)",
-                       (question['position'], question['title'], question['text'], question['image'],possible_answers_json))
-        question_id = cur.lastrowid  
+        insert_query = generate_Insert_request(question)
+        cur.execute(insert_query)
+        question_id = cur.lastrowid
+        print(insert_query) 
         cur.execute("commit")
         return question_id
     except sqlite3.Error as e:
@@ -21,23 +19,61 @@ def saveQuestion(question):
     finally:
         db_connection.close()
 
-def updateQuestion(data,questionId):
+def savePossibleAnswer(possible_answer):
+    db_connection = sqlite3.connect('./quiz.db')
+    db_connection.isolation_level = None
+    cur = db_connection.cursor()
+    
+    try:
+        cur.execute("begin")
+        insert_query = generate_Insert_request(possible_answer)
+        cur.execute(insert_query)
+        print(insert_query)
+        cur.execute("commit")
+    except sqlite3.Error as e:
+        cur.execute("rollback")
+        raise e
+    finally:
+        db_connection.close()
+
+def updateQuestion(data, questionId):
     try:
         db_connection = sqlite3.connect('./quiz.db')
         cur = db_connection.cursor()
 
-        possible_answers_json = json.dumps(data['possibleAnswers'], ensure_ascii=False) if not isinstance(data['possibleAnswers'], str) else data['possibleAnswers']
-
         cur.execute("""
-            UPDATE questions SET title = ?, text = ?, image = ?, position = ?, possibleAnswers = ?
+            UPDATE question SET title = ?, text = ?, image = ?, position = ?
             WHERE ID = ?
-        """, (data['title'], data['text'], data['image'], data['position'], possible_answers_json, questionId))
+        """, (data['title'], data['text'], data['image'], data['position'], questionId))
         
-        db_connection.commit()
+        cur.execute("commit")
     except sqlite3.Error as e:
-        db_connection.rollback()
+        cur.execute('rollback')
     finally:
-        db_connection.close()
+        cur.close()
+
+def updatePossibleAnswers(questionId, possibleAnswers):
+    try:
+        db_connection = sqlite3.connect('./quiz.db')
+        cur = db_connection.cursor()
+
+        for answer in possibleAnswers:
+            cur.execute("""
+                INSERT INTO possibleanswer (question_id, text, is_correct)
+                VALUES (?, ?, ?)
+                ON CONFLICT(answer_id)
+                DO UPDATE SET
+                    text = excluded.text,
+                    is_correct = excluded.is_correct
+                WHERE question_id = ?;
+            """, (questionId, answer['text'], answer['isCorrect'], questionId))
+
+        cur.execute("commit")
+    except sqlite3.Error as e:
+        cur.execute('rollback')
+    finally:
+        cur.close()
+
 
 def removeQuestion(questionId):
     try:
@@ -45,6 +81,7 @@ def removeQuestion(questionId):
         cur = db_connection.cursor()
 
         cur.execute("DELETE FROM questions WHERE ID = ?", (questionId,))
+        cur.execute("DELETE FROM possibleanswer WHERE ID = ?", (questionId,))
         db_connection.commit()
     except sqlite3.Error as e:
         db_connection.rollback()
@@ -56,7 +93,19 @@ def removeAllQuestion():
         db_connection = sqlite3.connect('./quiz.db')
         cur = db_connection.cursor()
 
-        cur.execute("DELETE FROM questions")
+        cur.execute("DELETE FROM question")
+        cur.execute("DELETE FROM possibleanswer")
+        db_connection.commit()
+    except sqlite3.Error as e:
+        db_connection.rollback()
+    finally:
+        db_connection.close()
+
+def removeAllParticipant():
+    try:
+        db_connection = sqlite3.connect('./quiz.db')
+        cur = db_connection.cursor()
+        cur.execute("DELETE FROM participant")
         db_connection.commit()
     except sqlite3.Error as e:
         db_connection.rollback()
