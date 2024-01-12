@@ -1,5 +1,3 @@
-// ParticipationStorageService.js
-
 export default {
     clear() {
       window.localStorage.removeItem("playerName");

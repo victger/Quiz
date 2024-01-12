@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import participationStorageService from "@/services/ParticipationStorageService";
 import { useRouter } from 'vue-router';
 
@@ -10,7 +9,7 @@ const username = ref('');
 function launchNewQuiz() {
   participationStorageService.savePlayerName(username.value)
   console.log("Launch new quiz with", username.value);
-  router.push({ name: '/questions' });
+  router.push({ name: 'questions' });
 }
 </script>
 
