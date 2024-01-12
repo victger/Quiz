@@ -4,13 +4,23 @@ from model.models import Question,PossibleAnswer
 from datetime import datetime
 
 
+def update_question_positions(cur, position):
+    cur.execute("""
+        UPDATE question
+        SET position = position + 1
+        WHERE position >= ?
+    """, (position,))
+
+
 def saveQuestion(question):
     
     db_connection = sqlite3.connect('./quiz.db')  
     cur = db_connection.cursor()
         
     try:
+       
         cur.execute("begin")
+        update_question_positions(cur, question.position)
         insert_query = insert_request_generator(question)
         cur.execute(insert_query)
         question_id = cur.lastrowid
@@ -90,20 +100,35 @@ def retrievePossibleAnswers(questionId):
 def updateQuestion(data, questionId):
     try:
         db_connection = sqlite3.connect('./quiz.db')
-        db_connection.isolation_level = None
-
         cur = db_connection.cursor()
+
+        cur.execute("SELECT id FROM question WHERE id = ?", (questionId,))
+        if cur.fetchone() is None:
+            return False
+
+        cur.execute("SELECT position FROM question WHERE id = ?", (questionId,))
+        row = cur.fetchone()
+        current_position = row[0]
+
+        new_position = data['position']
+        if current_position != new_position:
+            update_question_positions(cur, new_position)
+
         cur.execute("begin")
         cur.execute("""
             UPDATE question SET title = ?, text = ?, image = ?, position = ?
             WHERE ID = ?
-        """, (data['title'], data['text'], data['image'], data['position'], questionId))
-        
+        """, (data['title'], data['text'], data['image'], new_position, questionId))
+
         cur.execute("commit")
+        return True
     except sqlite3.Error as e:
         cur.execute('rollback')
+        raise e
     finally:
         cur.close()
+        db_connection.close()
+
 
 def updatePossibleAnswers(questionId, possibleAnswers):
     db_connection = sqlite3.connect('./quiz.db')
@@ -111,16 +136,14 @@ def updatePossibleAnswers(questionId, possibleAnswers):
 
     try:
         db_connection.execute("begin") 
+
+        cur.execute("DELETE FROM possibleanswer WHERE question_id = ?", (questionId,))
+
         for answer in possibleAnswers:
             cur.execute("""
                 INSERT INTO possibleanswer (question_id, text, isCorrect)
-                VALUES (?, ?, ?)
-                ON CONFLICT(id)
-                DO UPDATE SET
-                    text = excluded.text,
-                    isCorrect = excluded.isCorrect
-                WHERE question_id = ?;
-            """, (questionId, answer['text'], answer['isCorrect'], questionId))
+                VALUES (?, ?, ?);
+            """, (questionId, answer['text'], answer['isCorrect']))
 
         db_connection.commit()  
     except sqlite3.Error as e:
@@ -130,18 +153,24 @@ def updatePossibleAnswers(questionId, possibleAnswers):
         cur.close()
         db_connection.close()
 
+
 def removeQuestion(questionId):
     try:
         db_connection = sqlite3.connect('./quiz.db')
         cur = db_connection.cursor()
 
-        cur.execute("DELETE FROM question WHERE id = ?", (questionId,))
-        cur.execute("DELETE FROM possibleanswer WHERE  question_id= ?", (questionId,))
-        db_connection.commit()
+        cur.execute("SELECT id FROM question WHERE id = ?", (questionId,))
+        if cur.fetchone() is None:
+            return False
+        else : 
+            cur.execute("DELETE FROM question WHERE id = ?", (questionId,))
+            cur.execute("DELETE FROM possibleanswer WHERE  question_id= ?", (questionId,))
+            db_connection.commit()
     except sqlite3.Error as e:
         db_connection.rollback()
     finally:
         db_connection.close()
+    return True
 
 def removeAllQuestion():
     try:

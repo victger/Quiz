@@ -44,12 +44,8 @@ def get_question_by_position():
     question_dict["possibleAnswers"] = possible_answers_list
     return jsonify(question_dict), 200
 
-
-
 @questions.route('/questions', methods=['POST'])
 def post_question():
-    if len(request.args) > 0:
-        return jsonify({"error": "Unauthorized"}), 401
     data = request.get_json()
     access_token = request.headers.get('Authorization')
     if not access_token: 
@@ -76,28 +72,30 @@ def update_question(questionId):
         return jsonify({"error": "Unauthorized"}), 401
 
     try: 
-        updateQuestion(data, questionId)
+
+        question_to_update = updateQuestion(data, questionId)
+        if not question_to_update:
+            return jsonify({"error": "Question not found"}), 404
         if 'possibleAnswers' in data:
             updatePossibleAnswers(questionId, data['possibleAnswers'])
     except sqlite3.Error as e:
         return jsonify({"error": str(e)}), 500
-
     return ('', 204)
 
 @questions.route('/questions/<int:questionId>', methods=['DELETE'])
 def delete_question(questionId):
     acces_token = request.headers.get('Authorization')
-
+    print(questionId)
     if not acces_token:
         return jsonify({"error": "Unauthorized"}), 401
     try:
-
-        removeQuestion(questionId)
-
+        question_removed = removeQuestion(questionId)
+        if not question_removed:
+            return jsonify({"error": "Question not found"}), 404
     except sqlite3.Error as e:
         return jsonify({"error": str(e)}), 500
     return ('', 204)
-    
+
 @questions.route('/questions/all', methods=['DELETE'])
 def delete_all_questions():
     acces_token = request.headers.get('Authorization')
