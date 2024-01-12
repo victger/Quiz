@@ -67,6 +67,6 @@ async function endQuiz() {
   <p>Coucou</p>
   <QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
 
-  <p>{{firstQuestion}}</p>
+<br><p>{{firstQuestion}}</p>
 
 </template>
