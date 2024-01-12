@@ -17,7 +17,7 @@ onMounted(async () => {
       console.error("Invalid data structure for scores:", response.data);
     }
 
-    console.log("Home page mounted");
+    console.log(response.data.scores);
   } catch (error) {
     console.error("Error fetching quiz info:", error);
   }
