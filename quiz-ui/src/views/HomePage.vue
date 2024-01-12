@@ -17,7 +17,8 @@ onMounted(async () => {
 });
 
 </script>
-
+<style>
+</style>
 <template>
 
   <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
