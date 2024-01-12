@@ -3,12 +3,27 @@ import { ref, onMounted } from "vue";
 import quizApiService from "@/services/QuizApiService";
 
 onMounted(async () => {
-  console.log("Home page mounted");
+  try {
+    // Appel du service getQuizInfo() depuis QuizApiService.js
+    const response = await quizApiService.getQuizInfo();
+
+    // Stockage de la valeur adéquate dans registeredScores
+    registeredScores.value = response.data.scores; // Assurez-vous que la structure de données est correcte
+
+    console.log("Home page mounted");
+  } catch (error) {
+    console.error("Error fetching quiz info:", error);
+  }
 });
 
-const registeredScores = ref([]);
 </script>
 
 <template>
-  <h1>Home page</h1>
+
+  <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
+  {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+  </div>
+
+  <p>Test</p>
+
 </template>
