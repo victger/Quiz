@@ -11,10 +11,8 @@ function launchNewQuiz() {
   console.log("Launch new quiz with", username.value);
   router.push({ name: 'questions' });
 }
+
 </script>
-
-
-
 
 <template>
   <div class="container mt-3">

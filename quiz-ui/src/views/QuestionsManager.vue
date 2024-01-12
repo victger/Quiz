@@ -1,11 +1,13 @@
 <script setup>
 
 import { ref, onMounted } from "vue";
-import QuestionDisplay from "../components/QuestionDisplay.vue";
+// import QuestionDisplay from "@/views/QuestionDisplay.vue";
 import quizApiService from "@/services/QuizApiService";
 
 const currentQuestion = ref({});
-const currentQuestionPosition = ref(0);
+const currentQuestionPosition = ref(1);
+const totalNumberOfQuestions = ref(0);
+const firstQuestion = ref({})
 
 onMounted(async () => {
   try {
@@ -16,10 +18,9 @@ onMounted(async () => {
     firstQuestion.value= response1.data
     totalNumberOfQuestions.value= response2.data.size
 
-
-    console.log("Home page mounted");
+    console.log(response1.data);
   } catch (error) {
-    console.error("Error fetching quiz info:", error);
+    console.error("Error:", error);
   }
 });
 
@@ -49,7 +50,7 @@ async function answerClickedHandler(answerIndex) {
 
 async function endQuiz() {
   try {
-    const finalScore = await quizApiService.get_quiz_info();
+    const finalScore = await quizApiService.getQuizInfo();
     console.log(`Le score final est : ${finalScore}`);
     router.push('/result');
   } catch (error) {
@@ -62,9 +63,10 @@ async function endQuiz() {
 
 <template>
 
-<h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
-<QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
+  <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
+  <p>Coucou</p>
+  <QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
 
-<p>{{firstQuestion}}</p>
+<br><p>{{firstQuestion}}</p>
 
 </template>
