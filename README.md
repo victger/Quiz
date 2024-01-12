@@ -21,6 +21,8 @@ Par ailleurs, les opérations de modifiation des données sont effectuées dans 
 
 La base de données est stockée dans le fichier "quiz.db".
 
+METTRE LE SCHEMA DE LA BASE DE DONNEES
+
 ## Front-Office (quiz-ui)
 
 Le frontend de notre application fonctionne grâce aux stacks Vue, JavaScript, HTML, CSS.
