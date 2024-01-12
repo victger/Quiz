@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import quizApiService from "@/services/QuizApiService";
 
+const registeredScores = ref([]);
+ 
 onMounted(async () => {
   try {
     // Appel du service getQuizInfo() depuis QuizApiService.js
@@ -17,8 +19,11 @@ onMounted(async () => {
 });
 
 </script>
+
 <style>
+
 </style>
+
 <template>
 
   <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
