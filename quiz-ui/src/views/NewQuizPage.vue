@@ -1,18 +1,20 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import participationStorageService from "@/services/ParticipationStorageService";
+import { useRouter } from 'vue-router';
 
-const username = ref('');
 const router = useRouter();
+const username = ref('');
 
 function launchNewQuiz() {
+  participationStorageService.savePlayerName(username.value)
   console.log("Launch new quiz with", username.value);
-  // Ici, vous stockerez le nom du joueur pour une utilisation ultérieure
-  // et vous redirigerez vers la première question du quiz.
-  // Par exemple, si vous aviez une route pour la première question, vous pourriez faire :
-  router.push({ name: 'new-quiz' });
+  router.push({ name: '/questions' });
 }
 </script>
+
+
 
 
 <template>
