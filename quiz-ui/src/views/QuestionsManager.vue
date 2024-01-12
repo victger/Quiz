@@ -7,6 +7,7 @@ import quizApiService from "@/services/QuizApiService";
 const currentQuestion = ref({});
 const currentQuestionPosition = ref(1);
 const totalNumberOfQuestions = ref(0);
+const firstQuestion = ref({})
 
 onMounted(async () => {
   try {
@@ -14,10 +15,10 @@ onMounted(async () => {
     const response1 = await quizApiService.getQuestion(1);
     const response2 = await quizApiService.getQuizInfo();
 
-    firstQuestion= response1.data
+    firstQuestion.value= response1.data
     totalNumberOfQuestions.value= response2.data.size
 
-    console.log(firstQuestion);
+    console.log(response1.data);
   } catch (error) {
     console.error("Error:", error);
   }
