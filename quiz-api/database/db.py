@@ -4,13 +4,31 @@ from model.models import Question,PossibleAnswer
 from datetime import datetime
 
 
-def update_question_positions(cur, position):
-    cur.execute("""
-        UPDATE question
-        SET position = position + 1
-        WHERE position >= ?
-    """, (position,))
+def save_question_positions(cur, new_position):
+    cur.execute("SELECT MAX(position) FROM question")
+    max_position_result = cur.fetchone()
+    max_position = max_position_result[0] if max_position_result[0] is not None else 0
 
+    if new_position <= max_position:
+        cur.execute("""
+            UPDATE question
+            SET position = position + 1
+            WHERE position >= ?
+        """, (new_position,))
+
+def update_question_positions(cur, new_position, current_position):
+    if new_position > current_position:
+        cur.execute("""
+            UPDATE question
+            SET position = position - 1
+            WHERE position > ? AND position <= ?
+        """, (current_position, new_position))
+    else:
+        cur.execute("""
+            UPDATE question
+            SET position = position + 1
+            WHERE position >= ? AND position < ?
+        """, (new_position, current_position))
 
 def saveQuestion(question):
     
@@ -20,7 +38,7 @@ def saveQuestion(question):
     try:
        
         cur.execute("begin")
-        update_question_positions(cur, question.position)
+        save_question_positions(cur, question.position)
         insert_query = insert_request_generator(question)
         cur.execute(insert_query)
         question_id = cur.lastrowid
@@ -102,8 +120,11 @@ def updateQuestion(data, questionId):
         db_connection = sqlite3.connect('./quiz.db')
         cur = db_connection.cursor()
 
+        cur.execute("begin")
+
         cur.execute("SELECT id FROM question WHERE id = ?", (questionId,))
         if cur.fetchone() is None:
+            cur.execute('rollback') 
             return False
 
         cur.execute("SELECT position FROM question WHERE id = ?", (questionId,))
@@ -112,9 +133,8 @@ def updateQuestion(data, questionId):
 
         new_position = data['position']
         if current_position != new_position:
-            update_question_positions(cur, new_position)
+            update_question_positions(cur, new_position, current_position)
 
-        cur.execute("begin")
         cur.execute("""
             UPDATE question SET title = ?, text = ?, image = ?, position = ?
             WHERE ID = ?
@@ -123,12 +143,11 @@ def updateQuestion(data, questionId):
         cur.execute("commit")
         return True
     except sqlite3.Error as e:
-        cur.execute('rollback')
+        cur.execute('rollback')  
         raise e
     finally:
         cur.close()
         db_connection.close()
-
 
 def updatePossibleAnswers(questionId, possibleAnswers):
     db_connection = sqlite3.connect('./quiz.db')
@@ -153,24 +172,38 @@ def updatePossibleAnswers(questionId, possibleAnswers):
         cur.close()
         db_connection.close()
 
+def update_positions_after_deletion(cur, deleted_position):
+    cur.execute("""
+        UPDATE question
+        SET position = position - 1
+        WHERE position > ?
+    """, (deleted_position,))
 
 def removeQuestion(questionId):
     try:
         db_connection = sqlite3.connect('./quiz.db')
         cur = db_connection.cursor()
+        cur.execute("begin")
 
-        cur.execute("SELECT id FROM question WHERE id = ?", (questionId,))
-        if cur.fetchone() is None:
+        cur.execute("SELECT position FROM question WHERE id = ?", (questionId,))
+        row = cur.fetchone()
+        if row is None:
+            cur.execute('rollback') 
             return False
-        else : 
-            cur.execute("DELETE FROM question WHERE id = ?", (questionId,))
-            cur.execute("DELETE FROM possibleanswer WHERE  question_id= ?", (questionId,))
-            db_connection.commit()
+        deleted_position = row[0]
+
+        cur.execute("DELETE FROM question WHERE id = ?", (questionId,))
+
+        update_positions_after_deletion(cur, deleted_position)
+
+        cur.execute("commit")
+        return True
     except sqlite3.Error as e:
-        db_connection.rollback()
+        cur.execute('rollback')  
+        raise e
     finally:
+        cur.close()
         db_connection.close()
-    return True
 
 def removeAllQuestion():
     try:

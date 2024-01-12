@@ -11,8 +11,10 @@ def post_participations():
     player_name = data.get('playerName')  
     answer_positions = data.get('answers')
 
-    if not player_name or not answer_positions:
-        return jsonify({"error": "Missing data"}), 400
+    answer_positions = data.get('answers')
+    if len(answer_positions) != 10:
+        return jsonify({"error": "Bad request"}), 400
+    
 
     score, answers_summaries = calculateScore(answer_positions)
 

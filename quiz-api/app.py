@@ -23,7 +23,6 @@ def get_quiz_info():
     db_connection = sqlite3.connect('./quiz.db')
     cur = db_connection.cursor()
 
-    # Obtenir le nombre de questions
     cur.execute("SELECT COUNT(*) FROM question")
     quiz_size = cur.fetchone()[0]
 
