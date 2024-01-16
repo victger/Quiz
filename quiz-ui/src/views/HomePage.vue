@@ -30,7 +30,5 @@ onMounted(async () => {
     {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
   </div>
 
-  <router-link to="/new-quiz">Démarrer le quiz !</router-link>
-
-  <p>Test</p>
+  <router-link to="/new-quiz">Démarrer</router-link>
 </template>
