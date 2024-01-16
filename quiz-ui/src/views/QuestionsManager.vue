@@ -64,7 +64,6 @@ async function endQuiz() {
 <template>
 
   <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
-  <p>Coucou</p>
   <QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
 
 <br><p>{{firstQuestion}}</p>
