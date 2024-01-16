@@ -9,7 +9,7 @@ const username = ref('');
 function launchNewQuiz() {
   participationStorageService.savePlayerName(username.value)
   console.log("Launch new quiz with", username.value);
-  router.push({ name: 'questions' });
+  // router.push({ name: 'questions' });
 }
 
 </script>
@@ -23,7 +23,7 @@ function launchNewQuiz() {
             <label for="usernameInput" class="form-label">Saisissez votre nom :</label>
             <input type="text" class="form-control" id="usernameInput" placeholder="Username" v-model="username"/>
           </div>
-          <button type="submit" class="btn btn-primary" @click="launchNewQuiz">GO!</button>
+          <router-link to="/questions"><button type="submit" class="btn btn-primary" @click="launchNewQuiz">GO!</button></router-link>
         </form>
       </div>
     </div>
