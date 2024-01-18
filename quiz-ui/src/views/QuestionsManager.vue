@@ -1,22 +1,22 @@
 <script setup>
-
-import { ref, onMounted } from "vue";
-// import QuestionDisplay from "@/views/QuestionDisplay.vue";
 import quizApiService from "@/services/QuizApiService";
+import QuestionsDisplay from "@/views/QuestionsDisplay.vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
 
 const currentQuestion = ref({});
 const currentQuestionPosition = ref(1);
 const totalNumberOfQuestions = ref(0);
-const firstQuestion = ref({})
+const router = useRouter();
 
 onMounted(async () => {
   try {
-
     const response1 = await quizApiService.getQuestion(1);
     const response2 = await quizApiService.getQuizInfo();
 
-    firstQuestion.value= response1.data
-    totalNumberOfQuestions.value= response2.data.size
+    currentQuestion.value = response1.data;
+    totalNumberOfQuestions.value = response2.data.size;
 
     console.log(response1.data);
   } catch (error) {
@@ -28,7 +28,7 @@ async function loadQuestionByPosition(position) {
   try {
     const response = await quizApiService.getQuestion(position);
     currentQuestion.value = response.data;
-    totalNumberOfQuestions.value = response.total; 
+    currentQuestionPosition.value = position;
   } catch (error) {
     console.error("Erreur lors du chargement de la question :", error);
   }
@@ -52,20 +52,29 @@ async function endQuiz() {
   try {
     const finalScore = await quizApiService.getQuizInfo();
     console.log(`Le score final est : ${finalScore}`);
-    router.push('/result');
+    router.push('/score');
   } catch (error) {
     console.error("Erreur lors de la fin du quiz :", error);
   }
 }
 
-
+async function loadNextQuestion() {
+  try {
+    if (currentQuestionPosition.value < totalNumberOfQuestions.value) {
+      currentQuestionPosition.value++;
+      await loadQuestionByPosition(currentQuestionPosition.value);
+    } else {
+      await endQuiz();
+    }
+  } catch (error) {
+    console.error("Erreur lors du chargement de la question suivante :", error);
+  }
+}
 </script>
 
 <template>
-
-  <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
-  <QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
-
-<br><p>{{firstQuestion}}</p>
-
+  <div>
+    <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
+    <QuestionsDisplay :question="currentQuestion" @answer-clicked="answerClickedHandler" @next-question="loadNextQuestion" />
+  </div>
 </template>

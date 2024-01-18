@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-	baseURL: `${import.meta.env.VITE_API_URL}`,
+	baseURL: 'http://localhost:5000',
   json: true
 });
 
@@ -32,6 +32,10 @@ export default {
   },
   getQuestion(position) {
     return this.call("get", `questions?position=${position}`);
-}
+  },
+  saveAnswer(question, id) {
+    return this.call("get", `questions?position=${position}`);
+  }
+
 
 };

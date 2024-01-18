@@ -1,6 +1,9 @@
 # Image de l'API basée sur une image python
 FROM python:3.9-alpine
 
+# Installation de SQLite
+RUN apk --no-cache add sqlite
+
 # Création et positionnement du répertoire par défaut dans le container
 WORKDIR /app
 
@@ -11,7 +14,7 @@ COPY requirements.txt requirements.txt
 # Installation des dépendances dans le container
 RUN pip install -r requirements.txt
 
-# Creation d'une base vide
+# # Creation d'une base vide
 RUN touch quiz.db
 
 # Variables d'environement de production

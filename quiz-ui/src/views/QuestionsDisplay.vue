@@ -1,16 +1,37 @@
-
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 
 const props = defineProps({
-  currentQuestion: Object
+  question: Object
 });
-const emit = defineEmits(['answer-clicked']);
+const emit = defineEmits(['answer-clicked', 'next-question']);
+const selectedAnswerIndex = ref(null);
+
+function answerClickedHandler(answerIndex) {
+  selectedAnswerIndex.value = answerIndex;
+  emit('answer-clicked', answerIndex);
+}
+
+function clearSelection() {
+  selectedAnswerIndex.value = null;
+}
 </script>
 
 <template>
   <div>
-    <img v-if="currentQuestion.image" :src="currentQuestion.image" />
-    <a @click="emit('answer-clicked', 2)">La réponse D</a>
+    <h2>{{ question.title }}</h2>
+    <p>{{ question.text }}</p>
+    <img v-if="question.image" :src="question.image" />
+
+    <ul style="list-style-type: none; padding: 0;">
+      <li v-for="(answer, index) in question.possibleAnswers" :key="answer.id" style="margin-bottom: 10px;">
+        <label>
+          <input type="radio" :value="index" v-model="selectedAnswerIndex" @click="answerClickedHandler(index)" />
+          {{ answer.text }}
+        </label>
+      </li>
+    </ul>
+
+    <button @click="emit('next-question'); clearSelection()">Suivant</button>
   </div>
 </template>
