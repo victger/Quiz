@@ -249,7 +249,7 @@ def calculateScore(answer_positions):
     cur = db_connection.cursor()
 
     for question_pos, user_answer_position in enumerate(answer_positions, start=1):
-        print(f"Question Position: {question_pos}, User Answer Position: {user_answer_position}")
+        # print(f"Question Position: {question_pos}, User Answer Position: {user_answer_position}")
 
         cur.execute("""
             SELECT id, isCorrect 
@@ -263,7 +263,7 @@ def calculateScore(answer_positions):
         """, (question_pos,))
 
         possible_answers = cur.fetchall()
-        print(f"Possible Answers for Question {question_pos}: {possible_answers}")
+        # print(f"Possible Answers for Question {question_pos}: {possible_answers}")
 
         correct_answer_position = None
         user_answer_correct = False
@@ -274,7 +274,7 @@ def calculateScore(answer_positions):
             if pos + 1 == user_answer_position and isCorrect:
                 user_answer_correct = True
 
-        print(f"Correct Answer Position: {correct_answer_position}, User Answer Correct: {user_answer_correct}")
+        # print(f"Correct Answer Position: {correct_answer_position}, User Answer Correct: {user_answer_correct}")
 
         if user_answer_correct:
             score += 1
@@ -284,7 +284,7 @@ def calculateScore(answer_positions):
             "wasCorrect": user_answer_correct
         })
 
-    print(f"Final Score: {score}, Answers Summaries: {answers_summaries}")
+    # print(f"Final Score: {score}, Answers Summaries: {answers_summaries}")
 
     db_connection.close()
 

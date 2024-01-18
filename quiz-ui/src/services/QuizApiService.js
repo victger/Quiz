@@ -36,8 +36,10 @@ export default {
   postParticipation(playerName, answers) {
     return this.call("post", "participations", {
       playerName,
-      answers
-    });
+      answers});
+  },
+  postLogin(password){
+    return this.call("post", "login"),{password};
   }
 
 };

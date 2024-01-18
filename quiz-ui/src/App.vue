@@ -3,11 +3,18 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
+  
   <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
+    <div class="navbar">
+      <div class="left-section">
+        <span>Texte à gauche</span>
+      </div>
+      <div class="center-section">
+        <RouterLink to="/">Accueil</RouterLink>
+      </div>
+      <div class="right-section">
+        <RouterLink to="/login">Administration</RouterLink>
+      </div>
     </div>
   </header>
 
@@ -16,64 +23,26 @@ import { RouterLink, RouterView } from "vue-router";
 
 <style scoped>
 header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  background-color: #333; /* Couleur de fond de la barre de navigation */
+  color: white; /* Couleur du texte */
+  padding: 1rem 0; /* Espace interne en haut et en bas */
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* Largeur maximale de la barre de navigation */
+  margin: 0 auto; /* Centrer la barre de navigation horizontalement */
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.left-section, .center-section, .right-section {
+  display: flex;
+  align-items: center;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.left-section span {
+  margin-right: 1rem;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup>
+import participationStorageService from "@/services/ParticipationStorageService";
 import quizApiService from "@/services/QuizApiService";
 import QuestionsDisplay from "@/views/QuestionsDisplay.vue";
 import { ref, onMounted } from "vue";
@@ -19,7 +20,6 @@ onMounted(async () => {
     currentQuestion.value = response1.data;
     totalNumberOfQuestions.value = response2.data.size;
 
-    console.log(response1.data);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -38,7 +38,6 @@ async function loadQuestionByPosition(position) {
 async function answerClickedHandler(answerIndex) {
   try {
     answers.value.push(answerIndex);
-    console.log(Array.from(answers.value));
     if (currentQuestionPosition.value < totalNumberOfQuestions.value) {
       currentQuestionPosition.value++;
       await loadQuestionByPosition(currentQuestionPosition.value);
@@ -52,12 +51,11 @@ async function answerClickedHandler(answerIndex) {
 
 async function endQuiz() {
   try {
-    const playerName = "Anton";
-    const answers = [1,1,1,1,1,1,1,1,1,1]
+    const playerName = participationStorageService.getPlayerName();
+    const response = await quizApiService.postParticipation(playerName, answers.value);
+    const finalScore = response.data.score
+    participationStorageService.saveFinalScore(finalScore)
 
-    const response = await quizApiService.postParticipation(playerName, answers);
-
-    console.log(response.data)
     router.push('/score');
   } catch (error) {
     console.error("Erreur lors de la fin du quiz :", error);
