@@ -10,8 +10,7 @@ def post_participations():
     data = request.get_json()
     player_name = data.get('playerName')  
     answer_positions = data.get('answers')
-
-    answer_positions = data.get('answers')
+    
     if len(answer_positions) != 10:
         return jsonify({"error": "Bad request"}), 400
     

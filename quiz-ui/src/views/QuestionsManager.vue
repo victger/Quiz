@@ -8,6 +8,7 @@ import { useRouter } from "vue-router";
 const currentQuestion = ref({});
 const currentQuestionPosition = ref(1);
 const totalNumberOfQuestions = ref(0);
+const answers = ref([]); 
 const router = useRouter();
 
 onMounted(async () => {
@@ -36,7 +37,8 @@ async function loadQuestionByPosition(position) {
 
 async function answerClickedHandler(answerIndex) {
   try {
-    await quizApiService.saveAnswer(currentQuestion.value.id, answerIndex);
+    answers.value.push(answerIndex);
+    console.log(Array.from(answers.value));
     if (currentQuestionPosition.value < totalNumberOfQuestions.value) {
       currentQuestionPosition.value++;
       await loadQuestionByPosition(currentQuestionPosition.value);
@@ -50,8 +52,12 @@ async function answerClickedHandler(answerIndex) {
 
 async function endQuiz() {
   try {
-    const finalScore = await quizApiService.getQuizInfo();
-    console.log(`Le score final est : ${finalScore}`);
+    const playerName = "Anton";
+    const answers = [1,1,1,1,1,1,1,1,1,1]
+
+    const response = await quizApiService.postParticipation(playerName, answers);
+
+    console.log(response.data)
     router.push('/score');
   } catch (error) {
     console.error("Erreur lors de la fin du quiz :", error);

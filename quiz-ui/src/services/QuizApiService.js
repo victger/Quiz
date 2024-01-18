@@ -33,9 +33,11 @@ export default {
   getQuestion(position) {
     return this.call("get", `questions?position=${position}`);
   },
-  saveAnswer(question, id) {
-    return this.call("get", `questions?position=${position}`);
+  postParticipation(playerName, answers) {
+    return this.call("post", "participations", {
+      playerName,
+      answers
+    });
   }
-
 
 };
