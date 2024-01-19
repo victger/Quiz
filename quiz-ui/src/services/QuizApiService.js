@@ -25,6 +25,7 @@ export default {
       })
       .catch((error) => {
         console.error(error);
+        return error.response
       });
   },
   getQuizInfo() {
@@ -39,7 +40,7 @@ export default {
       answers});
   },
   postLogin(password){
-    return this.call("post", "login"),{password};
+    return this.call("post", "login",{password});
   }
 
 };

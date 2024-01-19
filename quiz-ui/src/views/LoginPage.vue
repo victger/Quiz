@@ -4,17 +4,24 @@ import quizApiService from "@/services/QuizApiService";
 import { useRouter } from "vue-router";
 
 const password = ref('');
+const errorMessage = ref('');
 const router = useRouter();
 
 async function login() {
-  try {
-    const response = await quizApiService.postLogin(password.value);
-    console.log(password.value);
-    console.log(response);
-  } catch (error) {
-    console.error("Erreur lors de la connexion :", error);
-  }
+
+  const response = await quizApiService.postLogin(password.value);
+
+  console.log("Response Status:", response.status);
+
+  if (response.status === 200) {
+    router.push('/admin');
+  } 
+  else {
+    // Afficher un message d'erreur
+    errorMessage.value = "Mot de passe incorrect";
+    }
 }
+
 </script>
 
 <template>
@@ -24,6 +31,7 @@ async function login() {
       <label for="password">Password:</label>
       <input type="password" v-model="password" id="password" placeholder="Password"/>
       <button type="submit">Connexion</button>
+      <p v-if="errorMessage">{{ errorMessage }}</p>
     </form>
   </div>
 </template>
@@ -55,5 +63,9 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+p {
+  color: red;
 }
 </style>
