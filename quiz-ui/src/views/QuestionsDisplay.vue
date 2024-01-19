@@ -12,9 +12,6 @@ function answerClickedHandler(answerIndex) {
   emit('answer-clicked', answerIndex);
 }
 
-function clearSelection() {
-  selectedAnswerIndex.value = null;
-}
 </script>
 
 <template>
@@ -32,6 +29,6 @@ function clearSelection() {
       </li>
     </ul>
 
-    <button @click="emit('next-question'); clearSelection()">Suivant</button>
+    <button @click="emit('next-question', selectedAnswerIndex)">Suivant</button>
   </div>
 </template>

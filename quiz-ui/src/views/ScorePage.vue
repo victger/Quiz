@@ -1,5 +1,5 @@
 <script setup>
-
+import participationStorageService from "@/services/ParticipationStorageService";
 
 const finalScore= participationStorageService.getFinalScore()
 

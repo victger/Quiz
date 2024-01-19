@@ -5,7 +5,6 @@ import QuestionsDisplay from "@/views/QuestionsDisplay.vue";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
-
 const currentQuestion = ref({});
 const currentQuestionPosition = ref(1);
 const totalNumberOfQuestions = ref(0);
@@ -35,20 +34,6 @@ async function loadQuestionByPosition(position) {
   }
 }
 
-async function answerClickedHandler(answerIndex) {
-  try {
-    answers.value.push(answerIndex);
-    if (currentQuestionPosition.value < totalNumberOfQuestions.value) {
-      currentQuestionPosition.value++;
-      await loadQuestionByPosition(currentQuestionPosition.value);
-    } else {
-      await endQuiz();
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'enregistrement de la réponse :", error);
-  }
-}
-
 async function endQuiz() {
   try {
     const playerName = participationStorageService.getPlayerName();
@@ -62,8 +47,13 @@ async function endQuiz() {
   }
 }
 
-async function loadNextQuestion() {
+async function loadNextQuestion(answerIndex) {
   try {
+    if (answerIndex !== null) {
+      answers.value.push(answerIndex);
+      console.log(answers.value)
+    }
+
     if (currentQuestionPosition.value < totalNumberOfQuestions.value) {
       currentQuestionPosition.value++;
       await loadQuestionByPosition(currentQuestionPosition.value);
@@ -74,11 +64,12 @@ async function loadNextQuestion() {
     console.error("Erreur lors du chargement de la question suivante :", error);
   }
 }
+
 </script>
 
 <template>
   <div>
     <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
-    <QuestionsDisplay :question="currentQuestion" @answer-clicked="answerClickedHandler" @next-question="loadNextQuestion" />
+    <QuestionsDisplay :question="currentQuestion" @next-question="loadNextQuestion" />
   </div>
 </template>
