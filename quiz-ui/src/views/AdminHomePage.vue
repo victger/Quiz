@@ -13,11 +13,19 @@ onMounted(async () => {
     const response = await quizApiService.getQuizInfo();
     const totalQuestions = response.data.size;
 
+    // Array to store all promises
+    const promises = [];
+
     // Fetch all questions for each position
     for (let position = 1; position <= totalQuestions; position++) {
-      const response = await quizApiService.getQuestion(position);
-      questions.value.push(response.data.text);
+      promises.push(quizApiService.getQuestion(position));
     }
+
+    // Wait for all promises to resolve
+    const responses = await Promise.all(promises);
+
+    // Extract text from each response and update questions
+    questions.value = responses.map(response => response.data.text);
 
     console.log("Questions texts:", questions.value);
   } catch (error) {
@@ -45,7 +53,7 @@ onMounted(async () => {
       </ul>
     </div>
     <div v-else>
-      <p>Aucune question disponible.</p>
+      <p>Chargement des questions...</p>
     </div>
   </div>
 </template>
