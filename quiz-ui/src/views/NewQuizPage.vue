@@ -8,7 +8,6 @@ const username = ref('');
 
 function launchNewQuiz() {
   participationStorageService.savePlayerName(username.value);
-  console.log("Launch new quiz with", username.value);
 }
 
 </script>

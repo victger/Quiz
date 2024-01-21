@@ -44,10 +44,12 @@ def get_question_by_position():
     question_dict["possibleAnswers"] = possible_answers_list
     return jsonify(question_dict), 200
 
-@questions.route('/questions', methods=['POST'])
+@questions.route('/questions', methods=['POST', 'OPTIONS'])
 def post_question():
     data = request.get_json()
+    print(data)
     access_token = request.headers.get('Authorization')
+
     if not access_token: 
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -85,7 +87,6 @@ def update_question(questionId):
 @questions.route('/questions/<int:questionId>', methods=['DELETE'])
 def delete_question(questionId):
     acces_token = request.headers.get('Authorization')
-    print(questionId)
     if not acces_token:
         return jsonify({"error": "Unauthorized"}), 401
     try:

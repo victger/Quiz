@@ -16,8 +16,6 @@ onMounted(async () => {
     } else {
       console.error("Invalid data structure for scores:", response.data);
     }
-
-    console.log(response.data.scores);
   } catch (error) {
     console.error("Error fetching quiz info:", error);
   }

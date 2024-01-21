@@ -8,20 +8,17 @@ const errorMessage = ref('');
 const router = useRouter();
 
 async function login() {
-
   const response = await quizApiService.postLogin(password.value);
 
-  console.log("Response Status:", response.status);
-
-  if (response.status === 200) {
+  if (response.status === 200 && response.data.token) {
+    // Stocker le token dans le service QuizApiService
+    quizApiService.setToken(response.data.token);
     router.push('/admin');
-  } 
-  else {
+  } else {
     // Afficher un message d'erreur
     errorMessage.value = "Mot de passe incorrect";
-    }
+  }
 }
-
 </script>
 
 <template>

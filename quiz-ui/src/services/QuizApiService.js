@@ -1,22 +1,30 @@
 import axios from "axios";
+import { ref } from "vue";
 
 const instance = axios.create({
 	baseURL: 'http://localhost:5000',
   json: true
 });
 
+let token = null;
+
 export default {
-  async call(method, resource, data = null, token = null) {
+  setToken(newToken) {
+    token = newToken;
+  },
+
+  async call(method, resource, data = null) {
     var headers = {
       "Content-Type": "application/json",
     };
-    if (token != null) {
+
+    if (token) {
       headers.authorization = "Bearer " + token;
     }
 
     return instance({
       method,
-      headers: headers,
+      headers,
       url: resource,
       data,
     })
@@ -25,7 +33,7 @@ export default {
       })
       .catch((error) => {
         console.error(error);
-        return error.response
+        return error.response;
       });
   },
   getQuizInfo() {
@@ -41,6 +49,9 @@ export default {
   },
   postLogin(password){
     return this.call("post", "login",{password});
+  },
+  saveQuestion(questionData){
+    return this.call("post", "questions", questionData, token);
   }
 
 };
