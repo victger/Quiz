@@ -53,8 +53,6 @@ async function save() {
       image: imageFile.value ? await convertImageToBase64(imageFile.value) : null,
     };
 
-    console.log(questionData);
-
     // Utilisation du token stocké dans le service QuizApiService
     await quizApiService.saveQuestion(questionData);
 

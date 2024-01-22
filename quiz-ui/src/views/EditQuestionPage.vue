@@ -70,11 +70,10 @@ async function save() {
       title: state.title,
       text: state.text,
       possibleAnswers: state.possibleAnswers,
-      image: state.imageFile ? await convertImageToBase64(state.imageFile) : "false"
+      image: state.imageFile ? await convertImageToBase64(state.imageFile) : null
     };
     await quizApiService.updateQuestion(state.questionId, questionData);
-    console.log(questionData);
-    // router.push('/admin');
+    router.push('/admin');
   } catch (error) {
     console.error('Error updating question:', error);
   }
