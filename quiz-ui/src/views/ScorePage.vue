@@ -1,8 +1,35 @@
 <script setup>
+import { ref, onMounted } from "vue";
 import participationStorageService from "@/services/ParticipationStorageService";
+import quizApiService from "@/services/QuizApiService";
 
-const finalScore = participationStorageService.getFinalScore()
+const finalScore = ref(0);
+const registeredScores = ref([]);
+const playerRanking = ref(null);
+const totalParticipants = ref(0);
 
+onMounted(async () => {
+  finalScore.value = participationStorageService.getFinalScore();
+  try {
+    const response = await quizApiService.getQuizInfo();
+    if (Array.isArray(response.data.scores)) {
+      registeredScores.value = response.data.scores;
+
+      const playerScoreEntry = registeredScores.value.findIndex(
+        (scoreEntry) => parseFloat(scoreEntry.score) === parseFloat(finalScore.value)
+      );
+
+      playerRanking.value = playerScoreEntry !== -1 ? playerScoreEntry + 1 : null;
+      totalParticipants.value = registeredScores.value.length;
+
+      console.log("Player Ranking:", playerRanking.value);
+    } else {
+      console.error("Invalid data structure for scores:", response.data);
+    }
+  } catch (error) {
+    console.error("Error fetching quiz info:", error);
+  }
+});
 </script>
 
 <template>
@@ -10,7 +37,20 @@ const finalScore = participationStorageService.getFinalScore()
     <div class="score-container">
       <h1 class="score-title">Votre Score</h1>
       <p class="score-value">Le score de votre session : <strong>{{ finalScore }}</strong></p>
-      <p class="ranking">Votre classement : <em>Compléter le backend</em></p>
+
+      <ul class="score-list">
+        <p>Les meilleurs scores</p>
+        <li v-for="scoreEntry in registeredScores" :key="scoreEntry.date" class="score-item">
+          {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+        </li>
+      </ul>
+
+      <p class="ranking" v-if="playerRanking !== null">
+        Votre classement : <em>{{ playerRanking }} / {{totalParticipants}}</em>
+      </p>
+      <p class="ranking" v-else>
+        Votre classement : <em>Non disponible</em>
+      </p>
     </div>
   </div>
 </template>
