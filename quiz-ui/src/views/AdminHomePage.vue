@@ -32,7 +32,7 @@ onMounted(async () => {
 });
 
 function showQuestionDetail(question) {
-  router.push({ name: 'question-detail', params: { id: question.position }, query: { question: question } });
+  router.push({ name: 'question-detail', params: { position: question.position }, query: { question: question } });
 }
 
 </script>

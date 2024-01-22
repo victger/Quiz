@@ -47,7 +47,7 @@ const router = createRouter({
       component: CreateQuestionPage
     },
     {
-      path: '/question-detail/:id',
+      path: '/question-detail/:position',
       name: 'question-detail',
       component: QuestionDetail,
       props : true
