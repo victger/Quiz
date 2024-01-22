@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from 'vue';
-import quizApiService from "@/services/QuizApiService";
-import { useRouter } from "vue-router";
+import { ref, onMounted } from 'vue';
+import quizApiService from '@/services/QuizApiService';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const id = ref(0);
+const position = ref(0);
 const title = ref('');
 const text = ref('');
 const possibleAnswers = ref([
@@ -16,15 +16,14 @@ const possibleAnswers = ref([
 const imageFile = ref(null);
 const imagePreview = ref(null);
 const correctAnswerIndex = ref(-1); // -1 means no correct answer selected
+const questionId = ref(null);
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
 
   if (file) {
-    // Stocker le fichier dans la référence imageFile
     imageFile.value = file;
 
-    // Afficher un aperçu de l'image
     const reader = new FileReader();
     reader.onload = () => {
       imagePreview.value = reader.result;
@@ -35,7 +34,7 @@ function handleImageUpload(event) {
 
 function setCorrectAnswer(index) {
   correctAnswerIndex.value = index;
-  // Décocher toutes les autres checkboxes
+
   possibleAnswers.value.forEach((answer, i) => {
     if (i !== index) {
       answer.isCorrect = false;
@@ -46,21 +45,16 @@ function setCorrectAnswer(index) {
 async function save() {
   try {
     const questionData = {
-      position: position.value,
       title: title.value,
       text: text.value,
       possibleAnswers: possibleAnswers.value,
       image: imageFile.value ? await convertImageToBase64(imageFile.value) : null,
     };
+    await quizApiService.updateQuestion(questionId.value, questionData);
 
-    console.log(questionData);
-
-    // Utilisation du token stocké dans le service QuizApiService
-    await quizApiService.saveQuestion(questionData);
-
-    router.push('/admin');
+    // router.push('/admin');
   } catch (error) {
-    console.error('Error saving question:', error);
+    console.error('Error updating question:', error);
   }
 }
 
@@ -68,20 +62,39 @@ function convertImageToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
-      resolve("data:image/jpeg;base64,"+reader.result.split(',')[1]);
+      resolve("data:image/jpeg;base64," + reader.result.split(',')[1]);
     };
     reader.onerror = (error) => reject(error);
     reader.readAsDataURL(file);
   });
 }
+
+onMounted(async () => {
+  // Utiliser props pour récupérer les paramètres de la route
+  position.value = router.currentRoute.value.params.position;
+  const response = await quizApiService.getQuestion(position.value);
+  const questionData = response.data;
+
+  // Assigner les valeurs de la question aux références
+  title.value = questionData.title;
+  text.value = questionData.text;
+  possibleAnswers.value = questionData.possibleAnswers;
+
+  // Afficher l'aperçu de l'image si elle existe
+  if (questionData.image) {
+    imagePreview.value = questionData.image;
+  }
+});
+
+
 </script>
 
 <template>
   <div>
-    <h1>Créer une question</h1>
+    <h1>Modifier la question</h1>
 
     <label for="position">Position :</label>
-    <input type="number" v-model="position" id="position" />
+    <input type="number" v-model="position" id="position" disabled />
 
     <label for="title">Titre :</label>
     <input type="text" v-model="title" id="title" />

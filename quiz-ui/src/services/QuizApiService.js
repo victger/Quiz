@@ -56,7 +56,9 @@ export default {
   },
   deleteQuestion(questionId){
     return this.call("delete", `questions/${questionId}`, null, token);
-
+  },
+  updateQuestion(questionId, questionData){
+    return this.call("put", `questions/${questionId}`, questionData, token);
   }
 
 };

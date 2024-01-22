@@ -15,7 +15,7 @@ onMounted(async () => {
 });
 
 function editQuestion() {
-  router.push({ name: 'edit-question', params: { id: question.value.id } });
+  router.push({ name: 'edit-question', params: { position: position.value } });
 }
 
 function goToAdminPage() {

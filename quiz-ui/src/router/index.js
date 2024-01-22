@@ -63,7 +63,7 @@ const router = createRouter({
       props : true
     },
     {
-      path: '/edit-question/:id',
+      path: '/edit-question/:position',
       name: 'edit-question',
       component: EditQuestionPage,
       props : true
