@@ -6,12 +6,15 @@ import quizApiService from "@/services/QuizApiService";
 const router = useRouter();
 const position = ref(null);
 const question = ref(null);
+const totalQuestions = ref(0);
 
 onMounted(async () => {
-  // Utiliser props pour récupérer les paramètres de la route
   position.value = router.currentRoute.value.params.position;
   const response = await quizApiService.getQuestion(position.value);
   question.value = response.data;
+
+  const quizInfoResponse = await quizApiService.getQuizInfo();
+  totalQuestions.value = quizInfoResponse.data.size;
 });
 
 function editQuestion() {
@@ -23,13 +26,15 @@ function goToAdminPage() {
 }
 
 async function deleteQuestion() {
-  if (confirm("Voulez-vous vraiment supprimer cette question?")) {
+  if (totalQuestions.value > 1 && confirm("Voulez-vous vraiment supprimer cette question?")) {
     try {
       await quizApiService.deleteQuestion(question.value.id);
       router.push('/admin');
     } catch (error) {
       console.error('Erreur lors de la suppression de la question:', error);
     }
+  } else {
+    alert("Impossible de supprimer la dernière question. Assurez-vous qu'il y a au moins une question dans la base de données.");
   }
 }
 </script>
