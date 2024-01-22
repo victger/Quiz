@@ -1,7 +1,3 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-</script>
-
 <template>
   <div class="app">
     <header>
@@ -27,13 +23,24 @@ import { RouterLink, RouterView } from "vue-router";
 </template>
 
 <style>
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background: #f5f5f5; /* Fond neutre clair */
+  color: #333; /* Texte en gris foncé pour une bonne lisibilité */
+  font-family: 'Lobster', cursive;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #333;
-  color: white;
+  background: #ffffff; /* Fond blanc pour le header */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée pour donner de la profondeur */
+  color: #333;
 }
 
 .left-section {
@@ -42,34 +49,34 @@ import { RouterLink, RouterView } from "vue-router";
 }
 
 .logo {
-  height: 50px; /* Ajustez la hauteur selon vos besoins */
-  margin-right: 10px; /* Ajoutez un espace entre le logo et le titre */
+  height: 60px; /* Ajusté pour une meilleure visibilité */
+  width: auto;
+  margin-right: 15px;
+  border-radius: 30%; /* Moins arrondi que le cercle complet pour une forme plus subtile */
 }
 
 .nav-link {
-  margin: 0 10px;
-  color: white;
+  margin: 0 15px;
   text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #650610; /* Couleur d'accent lors du survol */
+  transition: color 0.3s ease;
 }
 
 .app-main {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 20px;
-  /* ... autres styles ... */
+  padding: 2rem;
 }
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* utilise toute la hauteur de la fenêtre de visualisation */
-  width: 100%;
-}
+
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  background: #f5f5f5; /* Assurez-vous que le fond de body correspond au .app */
 }
-/* Ajoutez d'autres styles globaux ici si nécessaire */
 </style>
