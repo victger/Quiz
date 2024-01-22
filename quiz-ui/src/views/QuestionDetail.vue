@@ -15,21 +15,17 @@ onMounted(async () => {
 });
 
 function editQuestion() {
-  // Rediriger vers la route d'édition avec l'id de la question
   router.push({ name: 'edit-question', params: { id: question.value.id } });
 }
 
 function goToAdminPage() {
-  // Rediriger vers la page d'administration
   router.push('/admin');
 }
 
 async function deleteQuestion() {
   if (confirm("Voulez-vous vraiment supprimer cette question?")) {
     try {
-      // Appeler le service pour supprimer la question
       await quizApiService.deleteQuestion(question.value.id);
-      // Rediriger vers la page d'administration après suppression
       router.push('/admin');
     } catch (error) {
       console.error('Erreur lors de la suppression de la question:', error);

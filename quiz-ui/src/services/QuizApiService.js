@@ -53,6 +53,10 @@ export default {
   },
   saveQuestion(questionData){
     return this.call("post", "questions", questionData, token);
+  },
+  deleteQuestion(questionId){
+    return this.call("delete", `questions/${questionId}`, null, token);
+
   }
 
 };
