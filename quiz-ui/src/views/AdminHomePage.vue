@@ -25,13 +25,16 @@ onMounted(async () => {
     const responses = await Promise.all(promises);
 
     // Extract text from each response and update questions
-    questions.value = responses.map(response => response.data.text);
-
-    console.log("Questions texts:", questions.value);
+    questions.value = responses.map(response => response.data);
   } catch (error) {
     console.error("Error fetching questions:", error);
   }
 });
+
+function showQuestionDetail(question) {
+  router.push({ name: 'question-detail', params: { id: question.position }, query: { question: question } });
+}
+
 </script>
 
 <template>
@@ -47,8 +50,8 @@ onMounted(async () => {
     <div v-if="questions.length">
       <h2>Liste des questions :</h2>
       <ul>
-        <li v-for="(text, index) in questions" :key="index">
-          Intitulé Question {{ index + 1 }} : {{ text }}
+        <li v-for="question in questions" :key="question.position" @click="showQuestionDetail(question)">
+          Intitulé Question {{ question.position }} : {{ question.text }}
         </li>
       </ul>
     </div>

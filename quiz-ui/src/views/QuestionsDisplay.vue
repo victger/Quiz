@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, watch } from 'vue';
 
 const props = defineProps({
   question: Object
@@ -7,11 +7,14 @@ const props = defineProps({
 const emit = defineEmits(['answer-clicked', 'next-question']);
 const selectedAnswerIndex = ref(null);
 
+watch(() => props.question, () => {
+  selectedAnswerIndex.value = null;
+});
+
 function answerClickedHandler(answerIndex) {
   selectedAnswerIndex.value = answerIndex;
   emit('answer-clicked', answerIndex);
 }
-
 </script>
 
 <template>
@@ -21,7 +24,7 @@ function answerClickedHandler(answerIndex) {
     <img v-if="question.image" :src="question.image" />
 
     <ul style="list-style-type: none; padding: 0;">
-      <li v-for="(answer, index) in question.possibleAnswers" :key="answer.id" style="margin-bottom: 10px;">
+      <li v-for="(answer, index) in question.possibleAnswers" :key="index" style="margin-bottom: 10px;">
         <label>
           <input type="radio" :value="index" v-model="selectedAnswerIndex" @click="answerClickedHandler(index)" />
           {{ answer.text }}
