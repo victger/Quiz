@@ -7,10 +7,12 @@ import { RouterLink, RouterView } from "vue-router";
     <header>
       <nav class="navbar">
         <div class="left-section">
+          <img src="./assets/logo.png" alt="Logo CinemaScope" class="logo" />
           <span>CinemaScope</span>
         </div>
         <div class="center-section">
           <RouterLink to="/" class="nav-link">Home</RouterLink>
+          <!-- Ajoutez d'autres liens ici si nécessaire -->
         </div>
         <div class="right-section">
           <RouterLink to="/login" class="nav-link admin-link">Admin</RouterLink>
@@ -32,8 +34,16 @@ import { RouterLink, RouterView } from "vue-router";
   padding: 10px;
   background-color: #333;
   color: white;
-  width: 100%; 
-  box-sizing: border-box;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px; /* Ajustez la hauteur selon vos besoins */
+  margin-right: 10px; /* Ajoutez un espace entre le logo et le titre */
 }
 
 .nav-link {
