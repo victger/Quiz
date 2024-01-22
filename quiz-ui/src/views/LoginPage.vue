@@ -25,15 +25,15 @@ async function login() {
   <div class="login-page">
     <h2>Page de connexion administrateur</h2>
     <form @submit.prevent="login">
-      <label for="password">Password:</label>
-      <input type="password" v-model="password" id="password" placeholder="Password"/>
-      <button type="submit">Connexion</button>
+      <input type="password" class = "password-text" v-model="password" id="password" placeholder="Password"/>
+      <button type="submit" class="connexion-btn">Connexion</button>
       <p v-if="errorMessage">{{ errorMessage }}</p>
     </form>
   </div>
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 .login-page {
   text-align: center;
 }
@@ -53,13 +53,22 @@ input {
   margin-bottom: 20px;
 }
 
-button {
+.connexion-btn {
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.connexion-btn:hover {
+  background-color: #0355ad; /* Couleur plus sombre lors du survol */
+  transition: background-color 0.3s ease;
+}
+
+.password-text{
+  font-family: Merriweather;
 }
 
 p {
