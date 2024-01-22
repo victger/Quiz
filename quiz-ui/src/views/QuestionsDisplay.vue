@@ -16,8 +16,8 @@ function answerClickedHandler(answerIndex) {
 <template>
   <div class="quiz-container">
     <h2 class="quiz-title">{{ question.title }}</h2>
-    <p class="question-text">{{ question.text }}</p>
     <img v-if="question.image" class="question-image" :src="question.image" />
+    <p class="question-text">{{ question.text }}</p>
 
     <div class="options-container">
       <button
