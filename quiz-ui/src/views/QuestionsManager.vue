@@ -68,8 +68,19 @@ async function loadNextQuestion(answerIndex) {
 </script>
 
 <template>
-  <div>
+  <div class="question-container">
     <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
     <QuestionsDisplay :question="currentQuestion" @next-question="loadNextQuestion" />
   </div>
 </template>
+
+<style>
+.question-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+  text-align: center
+  /* ... autres styles ... */
+}
+
+</style>

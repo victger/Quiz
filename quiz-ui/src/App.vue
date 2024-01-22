@@ -3,46 +3,65 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  
-  <header>
-    <div class="navbar">
-      <div class="left-section">
-        <span>Texte à gauche</span>
-      </div>
-      <div class="center-section">
-        <RouterLink to="/">Accueil</RouterLink>
-      </div>
-      <div class="right-section">
-        <RouterLink to="/login">Administration</RouterLink>
-      </div>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="app">
+    <header>
+      <nav class="navbar">
+        <div class="left-section">
+          <span>CinemaScope</span>
+        </div>
+        <div class="center-section">
+          <RouterLink to="/" class="nav-link">Home</RouterLink>
+          <RouterLink to="/movies" class="nav-link">Movies</RouterLink>
+          <RouterLink to="/contact" class="nav-link">Contact</RouterLink>
+        </div>
+        <div class="right-section">
+          <RouterLink to="/admin" class="nav-link admin-link">Admin</RouterLink>
+        </div>
+      </nav>
+    </header>
+    
+    <main class="app-main">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
-<style scoped>
-header {
-  width: 100%;
-  background-color: #333; /* Couleur de fond de la barre de navigation */
-  color: white; /* Couleur du texte */
-  padding: 1rem 0; /* Espace interne en haut et en bas */
-}
-
+<style>
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px; /* Largeur maximale de la barre de navigation */
-  margin: 0 auto; /* Centrer la barre de navigation horizontalement */
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  width: 100%; 
+  box-sizing: border-box;
 }
 
-.left-section, .center-section, .right-section {
+.nav-link {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.app-main {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+  /* ... autres styles ... */
+}
+.app {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  min-height: 100vh; /* utilise toute la hauteur de la fenêtre de visualisation */
+  width: 100%;
 }
-
-.left-section span {
-  margin-right: 1rem;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
+/* Ajoutez d'autres styles globaux ici si nécessaire */
 </style>

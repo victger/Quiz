@@ -24,9 +24,49 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-for="scoreEntry in registeredScores" :key="scoreEntry.date">
-    {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+  <div class="homepage">
+    <h1 class="scoreboard-title">Top Scores</h1>
+    <ul class="score-list">
+      <li v-for="scoreEntry in registeredScores" :key="scoreEntry.date" class="score-item">
+        {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+      </li>
+    </ul>
+    <router-link to="/new-quiz" class="start-quiz-button">Start Quiz</router-link>
   </div>
-
-  <router-link to="/new-quiz">Test</router-link>
 </template>
+
+
+<style>
+.homepage {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+  /* ... autres styles ... */
+}
+
+.score-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.score-item {
+  background-color: #f0f0f0;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.start-quiz-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.start-quiz-button:hover {
+  background-color: #45a049;
+}
+</style>
+
