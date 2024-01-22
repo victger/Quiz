@@ -70,18 +70,29 @@ async function endQuiz() {
 
 <template>
   <div class="question-container">
-    <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
-    <QuestionsDisplay :question="currentQuestion" @next-question="loadNextQuestion" />
+    <h1 class = "question-number">Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestions }}</h1>
+    <QuestionsDisplay :question="currentQuestion" @next-question="loadNextQuestion" class="question-text"/>
   </div>
 </template>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+
 .question-container {
   width: 100%;
   box-sizing: border-box;
   padding: 0 20px;
   text-align: center
-  /* ... autres styles ... */
+}
+.question-number{
+  font-family: 'Merriweather', serif;
 }
 
+.question-text {
+  font-family: 'Merriweather', serif;
+}
 </style>

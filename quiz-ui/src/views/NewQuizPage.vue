@@ -31,6 +31,7 @@ function launchNewQuiz() {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 
 .container-mt-3 {
   display: flex;
@@ -63,6 +64,7 @@ function launchNewQuiz() {
   border-radius: 5px; /* Rounded corners for the input field */
   background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
   color: #333; /* Dark text for readability */
+  font-family: 'Merriweather', sans-serif;
 }
 
 .btn-primary {
@@ -78,6 +80,7 @@ function launchNewQuiz() {
   text-align: center; /* Center text within the button */
   text-decoration: none; /* Removes underline */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  
 }
 
 .form-label {
