@@ -68,65 +68,62 @@ async function deleteQuestion() {
 </template>
 
 <style>
-/* Réutilisation des styles définis pour AdminHomePage */
 .page-details {
   font-family: 'Roboto Slab', serif;
   color: #333;
   background: #f5f5f5;
   padding: 2rem;
+  max-width: 800px; /* Limiter la largeur pour une meilleure lisibilité */
+  margin: auto; /* Centrer dans la page */
 }
 
 .page-details h1 {
   text-align: center;
-  color: #000000;
   font-family: 'Lobster', serif;
-  font-weight: 700;
-  color: #131006;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  margin-bottom: 20px;
-  font-size: 2.5rem;
+  color: #650610;
+  margin-bottom: 1rem;
 }
 
 .page-details h2 {
-  color: #650610;
-  font-weight: 700;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
 }
 
 .page-details ul {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
 }
 
 .page-details li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .page-details img {
   max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
 }
 
 .page-details button {
   background-color: #650610;
   color: white;
-  padding: 10px 20px;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: block;
-  width: 200px;
-  margin: 10px auto;
-  text-align: center;
   font-weight: bold;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  margin-right: 0.5rem; /* Espacement entre les boutons */
+  transition: background-color 0.3s;
 }
 
 .page-details button:hover {
@@ -134,7 +131,24 @@ async function deleteQuestion() {
   color: #d4af37;
 }
 
-.loading {
-  text-align: center;
+.page-details .answer-list {
+  margin-top: 1rem;
+}
+
+.page-details .answer-item {
+  background-color: #f5f5f5;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.page-details .answer-item.correct {
+  background-color: #d4f8e8;
+}
+
+.page-details .answer-item.incorrect {
+  background-color: #ffd4d4;
 }
 </style>
+
