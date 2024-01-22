@@ -37,25 +37,86 @@ function showQuestionDetail(question) {
 </script>
 
 <template>
-  <div>
+  <div class="page-admin">
     <h1>Page d'Administration</h1>
 
-    <!-- Bouton pour créer une nouvelle question -->
-    <router-link to="/create-question">
-      <button>Créer une question</button>
+    <router-link to="/create-question" class="create-question-button">
+      Créer une question
     </router-link>
 
-    <!-- Display the list of questions -->
     <div v-if="questions.length">
       <h2>Liste des questions :</h2>
-      <ul>
-        <li v-for="question in questions" :key="question.position" @click="showQuestionDetail(question)">
+      <ul class="question-list">
+        <li
+          v-for="question in questions"
+          :key="question.position"
+          @click="showQuestionDetail(question)"
+          class="question-item"
+        >
           Intitulé Question {{ question.position }} : {{ question.text }}
         </li>
       </ul>
     </div>
-    <div v-else>
+    <div v-else class="loading">
       <p>Chargement des questions...</p>
     </div>
   </div>
 </template>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
+.page-admin {
+  font-family: 'Roboto Slab', serif;
+  color: #333;
+  background: #f5f5f5;
+  padding: 2rem;
+}
+
+.page-admin h1 {
+  text-align: center;
+  color: #d4af37;
+}
+
+.create-question-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  width: 200px;
+  margin: 1rem auto;
+  text-align: center;
+  text-decoration: none;
+}
+
+.question-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.question-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.question-item:hover {
+  background-color: #d4af37;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.loading {
+  text-align: center;
+}
+</style>
