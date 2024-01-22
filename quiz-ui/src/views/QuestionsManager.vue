@@ -50,7 +50,7 @@ async function endQuiz() {
 async function loadNextQuestion(answerIndex) {
   try {
     if (answerIndex !== null) {
-      answers.value.push(answerIndex);
+      answers.value.push(answerIndex+1);
       console.log(answers.value)
     }
 

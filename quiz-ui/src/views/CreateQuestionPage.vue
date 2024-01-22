@@ -15,6 +15,7 @@ const possibleAnswers = ref([
 ]);
 const imageFile = ref(null);
 const imagePreview = ref(null);
+const correctAnswerIndex = ref(-1); // -1 means no correct answer selected
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
@@ -32,6 +33,16 @@ function handleImageUpload(event) {
   }
 }
 
+function setCorrectAnswer(index) {
+  correctAnswerIndex.value = index;
+  // Décocher toutes les autres checkboxes
+  possibleAnswers.value.forEach((answer, i) => {
+    if (i !== index) {
+      answer.isCorrect = false;
+    }
+  });
+}
+
 async function save() {
   try {
     const questionData = {
@@ -47,7 +58,7 @@ async function save() {
     // Utilisation du token stocké dans le service QuizApiService
     await quizApiService.saveQuestion(questionData);
 
-    // router.push('/admin');
+    router.push('/admin');
   } catch (error) {
     console.error('Error saving question:', error);
   }
@@ -80,10 +91,14 @@ function convertImageToBase64(file) {
 
     <label>Réponses possibles :</label>
     <div v-for="(answer, index) in possibleAnswers" :key="index">
-      <input type="text" v-model="possibleAnswers[index].text" />
+      <input type="text" v-model="answer.text" />
       <label>
         Réponse correcte
-        <input type="checkbox" v-model="possibleAnswers[index].isCorrect" />
+        <input
+          type="checkbox"
+          v-model="answer.isCorrect"
+          @change="setCorrectAnswer(index)"
+        />
       </label>
     </div>
 

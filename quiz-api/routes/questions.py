@@ -47,7 +47,6 @@ def get_question_by_position():
 @questions.route('/questions', methods=['POST', 'OPTIONS'])
 def post_question():
     data = request.get_json()
-    print(data)
     access_token = request.headers.get('Authorization')
 
     if not access_token: 
