@@ -15,7 +15,7 @@ import { RouterLink, RouterView } from "vue-router";
           <RouterLink to="/contact" class="nav-link">Contact</RouterLink>
         </div>
         <div class="right-section">
-          <RouterLink to="/admin" class="nav-link admin-link">Admin</RouterLink>
+          <RouterLink to="/login" class="nav-link admin-link">Admin</RouterLink>
         </div>
       </nav>
     </header>
