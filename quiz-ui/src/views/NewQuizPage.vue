@@ -35,19 +35,20 @@ function launchNewQuiz() {
 .container-mt-3 {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh; /* Utilisez toute la hauteur de la fenêtre */
-  padding: 2rem;
-  background: #f5f5f5; /* Fond global de la page */
+  align-items: start; /* Aligns items to the start of the container */
+  padding-top: 10vh; /* Pushes the container down from the top */
+  height: 90vh; /* Takes up less height to move up the content */
+  background: #f5f5f5; /* Background color of the page */
 }
 
 .row {
-  background: #7b2a3b; /* Fond rouge du conteneur du formulaire */
+  background: #7b2a3b; /* Background color of the form container */
   padding: 2rem;
-  border-radius: 15px; /* Bords arrondis */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée pour donner de la profondeur */
-  max-width: 400px; /* Largeur maximale du conteneur */
-  width: 100%; /* S'adapte à la largeur de la fenêtre */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds depth with shadow */
+  max-width: 400px; /* Maximum width of the container */
+  width: 100%; /* Adjusts to the width of the viewport */
+  margin-top: -5vh; /* Negative margin to move the container higher */
 }
 
 .mb-3 {
@@ -55,41 +56,34 @@ function launchNewQuiz() {
 }
 
 .form-control {
-  width: 100%; /* Utilisez la pleine largeur du conteneur */
+  width: 100%; /* Full width of the container */
   padding: 0.5rem;
   margin-bottom: 1rem;
-  border: 1px solid #e1e1e1; /* Bordure subtile */
-  border-radius: 5px; /* Bords arrondis pour l'input */
+  border: 1px solid #e1e1e1; /* Subtle border */
+  border-radius: 5px; /* Rounded corners for the input field */
+  background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+  color: #333; /* Dark text for readability */
 }
 
 .btn-primary {
-  display: block; /* Afficher le lien comme un bloc pour appliquer une largeur */
-  width: 100%; /* Utilisez la pleine largeur du conteneur */
-  padding: 0.5rem 0; /* Padding vertical sans padding horizontal */
-  background-color: #d4af37; /* Couleur du bouton */
-  color: white;
-  border-radius: 5px; /* Bords arrondis pour le bouton */
-  transition: background-color 0.3s ease;
-  text-decoration: none; /* Supprime le soulignement du lien */
-  font-family: 'Nunito', sans-serif;
+  display: block; /* Block display to fill the width */
+  width: auto; /* Auto width based on content */
+  padding: 0.5rem 1rem; /* Smaller padding for a smaller button */
+  margin: 0 auto; /* Center the button */
+  margin-top: 1rem; /* Space above the button */
+  background-color: #d4af37; /* Button color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center text within the button */
+  text-decoration: none; /* Removes underline */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
-.form-label{
-  color: #ffffff; /* Fond clair pour les items */
-  font-family: 'Nunito', sans-serif;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease; /* Transition pour l'interaction */
+.form-label {
+  color: #fff; /* White text color for the label */
 }
 
-.form-control{
-  color: #ffffff; /* Fond clair pour les items */
-  font-family: 'Nunito', sans-serif;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease; /* Transition pour l'interaction */
-}
+/* Additional styles for other states like hover, active, etc. may be required */
 
 </style>
