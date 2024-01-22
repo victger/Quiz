@@ -53,7 +53,7 @@ function showQuestionDetail(question) {
           @click="showQuestionDetail(question)"
           class="question-item"
         >
-          Intitulé Question {{ question.position }} : {{ question.text }}
+          Question {{ question.position }} : {{ question.text }}
         </li>
       </ul>
     </div>
