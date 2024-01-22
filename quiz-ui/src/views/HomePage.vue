@@ -43,6 +43,7 @@ onMounted(async () => {
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400&display=swap');
 
 .homepage {
   display: flex;
@@ -77,7 +78,7 @@ onMounted(async () => {
 .score-item {
   background-color: #ffffff; /* Fond clair pour les items */
   color: #333; /* Texte en gris foncé pour une bonne lisibilité */
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Nunito', sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border: 1px solid #e1e1e1; /* Bordure subtile */
   margin: 5px 0;
