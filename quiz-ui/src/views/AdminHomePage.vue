@@ -67,6 +67,7 @@ function showQuestionDetail(question) {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
 
+
 .page-admin {
   font-family: 'Roboto Slab', serif;
   color: #333;
@@ -76,11 +77,17 @@ function showQuestionDetail(question) {
 
 .page-admin h1 {
   text-align: center;
-  color: #d4af37;
+  color: #000000;
+  font-family: Lobster, serif;
+  font-weight: 700; /* Pour une police plus épaisse */
+  color: #131006; /* Couleur dorée pour le titre */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25); /* Ombre de texte plus prononcée pour le titre */
+  margin-bottom: 20px;
+  font-size: 2.5rem; /* Taille plus grande pour le titre */
 }
 
 .create-question-button {
-  background-color: #4CAF50;
+  background-color: #650610;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -92,6 +99,15 @@ function showQuestionDetail(question) {
   margin: 1rem auto;
   text-align: center;
   text-decoration: none;
+  margin-top: 10px; /* Ajoute un peu d'espace au-dessus du bouton */
+  font-weight: bold; /* Rendre le texte du bouton plus visible */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.create-question-button:hover{
+  background-color: #5e050e; /* Couleur plus sombre lors du survol */
+  transition: background-color 0.3s ease;
+  color: #d4af37;
 }
 
 .question-list {
