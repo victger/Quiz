@@ -4,7 +4,7 @@ import quizApiService from "@/services/QuizApiService";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const position = ref(1);
+const id = ref(0);
 const title = ref('');
 const text = ref('');
 const possibleAnswers = ref([

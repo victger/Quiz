@@ -7,6 +7,7 @@ import LoginPage from '../views/LoginPage.vue'
 import AdminHomePage from '../views/AdminHomePage.vue'
 import CreateQuestionPage from '../views/CreateQuestionPage.vue'
 import QuestionDetail from '../views/QuestionDetail.vue'
+import EditQuestionPage from '../views/EditQuestionPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,12 @@ const router = createRouter({
       path: '/question-detail/:position',
       name: 'question-detail',
       component: QuestionDetail,
+      props : true
+    },
+    {
+      path: '/edit-question/:id',
+      name: 'edit-question',
+      component: EditQuestionPage,
       props : true
     }
   ]
