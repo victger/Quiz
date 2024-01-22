@@ -108,6 +108,7 @@ function showQuestionDetail(question) {
   background-color: #5e050e; /* Couleur plus sombre lors du survol */
   transition: background-color 0.3s ease;
   color: #d4af37;
+  transition: color 0.3s ease;
 }
 
 .question-list {
@@ -127,7 +128,7 @@ function showQuestionDetail(question) {
 }
 
 .question-item:hover {
-  background-color: #d4af37;
+  background-color: #a8a8a8;
   color: white;
   transform: translateY(-2px);
 }
