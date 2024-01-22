@@ -68,7 +68,6 @@ def post_question():
 def update_question(questionId):
     data = request.get_json()
     access_token = request.headers.get('Authorization')
-    print(access_token)
 
     if not access_token:
         return jsonify({"error": "Unauthorized"}), 401
