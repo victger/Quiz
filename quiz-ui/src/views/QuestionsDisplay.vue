@@ -4,15 +4,12 @@ import { defineProps, defineEmits } from 'vue';
 const props = defineProps({
   question: Object
 });
-const emit = defineEmits(['answer-clicked', 'next-question']);
+const emit = defineEmits(['next-question']);
 
 
 function answerClickedHandler(answerIndex) {
 
-  emit('answer-clicked', answerIndex);
-
-  
-  emit('next-question');
+  emit('next-question', answerIndex);
 }
 </script>
 

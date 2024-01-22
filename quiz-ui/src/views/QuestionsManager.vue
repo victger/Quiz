@@ -34,19 +34,6 @@ async function loadQuestionByPosition(position) {
   }
 }
 
-async function endQuiz() {
-  try {
-    const playerName = participationStorageService.getPlayerName();
-    const response = await quizApiService.postParticipation(playerName, answers.value);
-    const finalScore = response.data.score
-    participationStorageService.saveFinalScore(finalScore)
-
-    router.push('/score');
-  } catch (error) {
-    console.error("Erreur lors de la fin du quiz :", error);
-  }
-}
-
 async function loadNextQuestion(answerIndex) {
   try {
     if (answerIndex !== null) {
@@ -61,6 +48,21 @@ async function loadNextQuestion(answerIndex) {
     }
   } catch (error) {
     console.error("Erreur lors du chargement de la question suivante :", error);
+  }
+}
+
+async function endQuiz() {
+  try {
+    const playerName = participationStorageService.getPlayerName();
+    const arrayAnswers= Array.from(answers.value);
+    console.log(arrayAnswers);
+    const response = await quizApiService.postParticipation(playerName, arrayAnswers);
+    const finalScore = response.data.score
+    participationStorageService.saveFinalScore(finalScore)
+
+    router.push('/score');
+  } catch (error) {
+    console.error("Erreur lors de la fin du quiz :", error);
   }
 }
 
