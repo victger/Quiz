@@ -68,5 +68,9 @@ onMounted(async () => {
 .start-quiz-button:hover {
   background-color: #45a049;
 }
+
+.scoreboard-title{
+  text-align: center;
+}
 </style>
 
