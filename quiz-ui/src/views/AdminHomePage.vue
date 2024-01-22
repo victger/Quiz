@@ -1,5 +1,4 @@
 <script setup>
-import participationStorageService from "@/services/ParticipationStorageService";
 import quizApiService from "@/services/QuizApiService";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
