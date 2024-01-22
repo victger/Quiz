@@ -38,7 +38,16 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      component: AdminHomePage
+      component: AdminHomePage,
+      beforeEnter: (to, from, next) => {
+        const token = sessionStorage.getItem('token');
+        console.log("Token:", token);
+        if (token) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
     },
     {
       path: '/create-question',
