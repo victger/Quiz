@@ -1,29 +1,31 @@
 # Image de l'API basée sur une image python
 FROM python:3.9-alpine
 
-# Installation de SQLite
-RUN apk --no-cache add sqlite
-
 # Création et positionnement du répertoire par défaut dans le container
 WORKDIR /app
 
+# Installer sqlite3 et les dépendances nécessaires
+RUN apk add --no-cache sqlite sqlite-dev
+
 # Copie du fichier requirements local (machine hôte) vers le container 
-# (répertoire /app, car il s'agit du WORKDIR)
 COPY requirements.txt requirements.txt
 
 # Installation des dépendances dans le container
 RUN pip install -r requirements.txt
 
-# # Creation d'une base vide
-RUN touch quiz.db
+# Copie de l'ensemble du code + dépendances
+COPY . .
 
-# Variables d'environement de production
+# Variables d'environnement de production
 ENV FLASK_DEBUG=0
 ENV FLASK_ENV=production
 ENV FLASK_APP=app.py
 
-# Copie de l'ensemble du code + dépendances
-COPY . .
+# Ajoute ce script dans le conteneur
+COPY init_db.py /app/init_db.py
+
+# Exécute le script pour créer la base de données si elle n'existe pas
+RUN python /app/init_db.py
 
 # Informations sur l'image
 LABEL maintainer="Nom Prénom <nom.prénom@esiee.fr>" \

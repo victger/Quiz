@@ -8,18 +8,16 @@ from datetime import datetime
 import sqlite3
 from database.db import create_tables
 
-
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 def hello_world():
-	x = 'hsdh'
-	return f"Hello, {x}"
+	return "Application was launched."
 
 @app.route('/quiz-info', methods=['GET'])
 def get_quiz_info():
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('/app/db/quiz.db')
     cur = db_connection.cursor()
 
     cur.execute("SELECT COUNT(*) FROM question")
@@ -51,7 +49,7 @@ def rebuild_db():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
-        create_tables('quiz.db')
+        create_tables('/app/db/quiz.db')
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

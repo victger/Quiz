@@ -32,7 +32,7 @@ def update_question_positions(cur, new_position, current_position):
 
 def saveQuestion(question):
     
-    db_connection = sqlite3.connect('./quiz.db')  
+    db_connection = sqlite3.connect('./db/quiz.db')  
     cur = db_connection.cursor()
         
     try:
@@ -51,7 +51,7 @@ def saveQuestion(question):
         db_connection.close()
 
 def savePossibleAnswer(possible_answer):
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     db_connection.isolation_level = None
     cur = db_connection.cursor()
     
@@ -67,7 +67,7 @@ def savePossibleAnswer(possible_answer):
         db_connection.close()
 
 def retrieveQuestion(by, value):
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     db_connection.isolation_level = None
 
     cur = db_connection.cursor()
@@ -90,7 +90,7 @@ def retrieveQuestion(by, value):
         db_connection.close()
 
 def retrievePossibleAnswers(questionId):
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     db_connection.isolation_level = None
 
     cur = db_connection.cursor()
@@ -114,7 +114,7 @@ def retrievePossibleAnswers(questionId):
 
 def updateQuestion(data, questionId):
     try:
-        db_connection = sqlite3.connect('./quiz.db')
+        db_connection = sqlite3.connect('./db/quiz.db')
         cur = db_connection.cursor()
 
         cur.execute("begin")
@@ -147,7 +147,7 @@ def updateQuestion(data, questionId):
         db_connection.close()
 
 def updatePossibleAnswers(questionId, possibleAnswers):
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cur = db_connection.cursor()
 
     try:
@@ -178,7 +178,7 @@ def update_positions_after_deletion(cur, deleted_position):
 
 def removeQuestion(questionId):
     try:
-        db_connection = sqlite3.connect('./quiz.db')
+        db_connection = sqlite3.connect('./db/quiz.db')
         cur = db_connection.cursor()
         cur.execute("begin")
 
@@ -206,7 +206,7 @@ def removeQuestion(questionId):
 
 def removeAllQuestion():
     try:
-        db_connection = sqlite3.connect('./quiz.db')
+        db_connection = sqlite3.connect('./db/quiz.db')
         cur = db_connection.cursor()
 
         cur.execute("DELETE FROM question")
@@ -220,7 +220,7 @@ def removeAllQuestion():
 def saveParticipation(participation):
     answer_positions_str = ','.join(map(str, participation.answer_positions))
 
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cursor = db_connection.cursor()
 
     cursor.execute('''
@@ -244,7 +244,7 @@ def calculateScore(answer_positions):
     score = 0
     answers_summaries = []
 
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cur = db_connection.cursor()
 
     for question_pos, user_answer_position in enumerate(answer_positions, start=1):
@@ -285,7 +285,7 @@ def calculateScore(answer_positions):
     return score, answers_summaries
 
 def saveParticipationResult(participation_result):
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cursor = db_connection.cursor()
 
     cursor.execute('''
@@ -297,7 +297,7 @@ def saveParticipationResult(participation_result):
     db_connection.close()
 
 def getParticipationResults():
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cursor = db_connection.cursor()
 
     cursor.execute("""
@@ -313,7 +313,7 @@ def getParticipationResults():
 
 def removeAllParticipations():
     try:
-        db_connection = sqlite3.connect('./quiz.db')
+        db_connection = sqlite3.connect('./db/quiz.db')
         cur = db_connection.cursor()
 
         cur.execute("DELETE FROM participation")
@@ -326,7 +326,7 @@ def removeAllParticipations():
         db_connection.close()
 
 def isUsernameUnique(username):
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cursor = db_connection.cursor()
 
     cursor.execute('''
@@ -340,7 +340,7 @@ def isUsernameUnique(username):
     return count == 0
 
 def isQuizComplet():
-    db_connection = sqlite3.connect('./quiz.db')
+    db_connection = sqlite3.connect('./db/quiz.db')
     cur = db_connection.cursor()
 
     try:
