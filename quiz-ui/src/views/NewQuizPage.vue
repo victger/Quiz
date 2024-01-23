@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import participationStorageService from "@/services/ParticipationStorageService";
 import { useRouter } from 'vue-router';
 
@@ -16,13 +16,14 @@ function launchNewQuiz() {
     router.push('/questions');
   }
 }
+
 </script>
 
 <template>
   <div class="container-mt-3">
     <div class="row">
       <div class="col-12">
-        <form>
+        <form @submit.prevent="launchNewQuiz">
           <div class="mb-3">
             <label for="usernameInput" class="form-label">Saisissez votre nom :</label>
             <input type="text" class="form-control" id="usernameInput" placeholder="Username" v-model="username"/>
