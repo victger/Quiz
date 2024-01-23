@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import quizApiService from "@/services/QuizApiService";
 import { useRouter } from "vue-router";
 import { useToast } from 'vue-toastification';
@@ -18,6 +18,15 @@ const imageFile = ref(null);
 const imagePreview = ref(null);
 const correctAnswerIndex = ref(-1); 
 const toast = useToast();
+
+const formErrors = reactive({
+  position: false,
+  title: false,
+  text: false,
+  answers: false,
+  image: false,
+  oneCorrectAnswer: false,
+});
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
@@ -46,6 +55,23 @@ function setCorrectAnswer(index) {
 }
 
 async function save() {
+
+  const correctAnswersCount = possibleAnswers.value.filter(answer => answer.isCorrect).length;
+
+  formErrors.position = !position.value;
+  formErrors.title = !title.value.trim();
+  formErrors.text = !text.value.trim();
+  formErrors.answers = possibleAnswers.value.some(answer => !answer.text.trim());
+  formErrors.image = !imageFile.value; 
+  formErrors.oneCorrectAnswer = correctAnswersCount !== 1;
+  
+
+  if (formErrors.position || formErrors.title || formErrors.text || formErrors.answers || formErrors.image || formErrors.oneCorrectAnswer ) {
+    toast.error("Veuillez remplir tous les champs nécessaires.");
+    return;
+  }
+
+
   try {
     const questionData = {
       position: position.value,
@@ -58,7 +84,7 @@ async function save() {
     const response = await quizApiService.saveQuestion(questionData);
 
     if (response.status === 200) {
-      toast.success("Question added");
+      toast.success("Question ajouté");
       router.push('/admin');
     } else {
       toast.error("You can not add more than 10 questions.");
@@ -89,22 +115,26 @@ function convertImageToBase64(file) {
           
           <div class="mb-3">
             <label for="position" class="form-label">Position :</label>
-            <input type="number" v-model="position" id="position" class="form-control" />
+            <input type="number" v-model="position" id="position" class="form-control" min="1" max="10"/>
+            <div v-if="formErrors.position" class="error-message">Ce champ est requis.</div>
           </div>
           
           <div class="mb-3">
             <label for="title" class="form-label">Titre :</label>
             <input type="text" v-model="title" id="title" class="form-control" />
+            <div v-if="formErrors.title" class="error-message">Ce champ est requis.</div>
           </div>
           
           <div class="mb-3">
             <label for="text" class="form-label">Intitulé :</label>
             <textarea v-model="text" id="text" class="form-control"></textarea>
+            <div v-if="formErrors.text" class="error-message">Ce champ est requis.</div>
           </div>
           
           <label class="form-label">Réponses possibles :</label>
           <div v-for="(answer, index) in possibleAnswers" :key="index" class="mb-3">
             <input type="text" v-model="answer.text" class="form-control" />
+            <div v-if="formErrors.answers && !answer.text" class="error-message">Ce champ est requis.</div>
             <div class="form-check">
               <input
                 type="checkbox"
@@ -116,12 +146,16 @@ function convertImageToBase64(file) {
               <label class="form-check-label" :for="'correct-' + index">
                 Réponse correcte
               </label>
+              <div v-if="formErrors.oneCorrectAnswer" class="error-message">
+                Veuillez sélectionner une seule réponse correcte.
+              </div>
             </div>
           </div>
           
           <div class="mb-3">
             <label for="image" class="form-label">Téléverser une image :</label>
             <input type="file" accept="image/*" @change="handleImageUpload" id="image" class="form-control" />
+            <div v-if="formErrors.image" class="error-message">Veuillez sélectionner une image.</div>
           </div>
           
           <div v-if="imagePreview" class="mb-3 image-preview-container">
@@ -143,5 +177,9 @@ function convertImageToBase64(file) {
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 
+.error-message {
+    color: rgb(252, 46, 46);
+    font-size: 0.8em;
+  }
 
 </style>

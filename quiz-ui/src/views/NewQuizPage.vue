@@ -2,16 +2,29 @@
 import { ref, onMounted } from 'vue';
 import participationStorageService from "@/services/ParticipationStorageService";
 import { useRouter } from 'vue-router';
+import axios from 'axios'; 
 
 const router = useRouter();
 const username = ref('');
 const errorMessage = ref('');
 
-function launchNewQuiz() {
+async function isUsernameUnique(username) {
+  try {
+    const response = await axios.post('http://127.0.0.1:5000//check-username', { playerName: username });
+    return response.data.isUnique;
+  } catch (error) {
+    console.error('Erreur lors de la vérification du nom d’utilisateur:', error);
+    return false; 
+  }
+}
+
+async function launchNewQuiz() {
   if (username.value.trim() === '') {
     errorMessage.value = "Vous devez entrer un username.";
+  } else if (!(await isUsernameUnique(username.value))) {
+    errorMessage.value = 'Ce nom d’utilisateur est déjà pris.';
   } else {
-    errorMessage.value = '';  // Réinitialiser le message d'erreur
+    errorMessage.value = ''; 
     participationStorageService.savePlayerName(username.value);
     router.push('/questions');
   }

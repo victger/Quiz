@@ -2,6 +2,7 @@
 import { ref, onMounted, reactive } from 'vue';
 import quizApiService from '@/services/QuizApiService';
 import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
 const router = useRouter();
 const state = reactive({
@@ -17,8 +18,16 @@ const state = reactive({
   imageFile: null,
   imagePreview: null,
   correctAnswerIndex: -1,
-  questionId: null
+  questionId: null,
+  formErrors: {
+    position: false,
+    title: false,
+    text: false,
+    answers: false,
+    oneCorrectAnswer: false,
+  }
 });
+const toast = useToast();
 
 onMounted(async () => {
   // Utiliser props pour récupérer les paramètres de la route
@@ -64,6 +73,21 @@ function setCorrectAnswer(index) {
 }
 
 async function save() {
+
+  const correctAnswersCount = state.possibleAnswers.filter(answer => answer.isCorrect).length;
+  
+  state.formErrors.oneCorrectAnswer = correctAnswersCount !== 1;
+  state.formErrors.position = !state.position;
+  state.formErrors.title = !state.title.trim();
+  state.formErrors.text = !state.text.trim();
+  state.formErrors.answers = state.possibleAnswers.some(answer => !answer.text.trim());
+  
+
+  if (Object.values(state.formErrors).some(error => error)) {
+    toast.error('Veuillez remplir tous les champs nécessaires.');
+    return;
+  }
+
   try {
     const questionData = {
       position : state.position,
@@ -73,6 +97,7 @@ async function save() {
       image: state.imageFile ? await convertImageToBase64(state.imageFile) : null
     };
     await quizApiService.updateQuestion(state.questionId, questionData);
+    toast.success("Question modifié");
     router.push('/admin');
   } catch (error) {
     console.error('Error updating question:', error);
@@ -100,22 +125,26 @@ function convertImageToBase64(file) {
           
           <div class="mb-3">
             <label for="position" class="form-label">Position :</label>
-            <input type="number" v-model="state.position" id="position" class="form-control" />
+            <input type="number" v-model="state.position" id="position" class="form-control" min="1" max="10"/>
+            <div v-if="state.formErrors.position" class="error-message">Ce champ est requis.</div>
           </div>
           
           <div class="mb-3">
             <label for="title" class="form-label">Titre :</label>
             <input type="text" v-model="state.title" id="title" class="form-control" />
+            <div v-if="state.formErrors.title" class="error-message">Ce champ est requis.</div>
           </div>
           
           <div class="mb-3">
             <label for="text" class="form-label">Intitulé :</label>
             <textarea v-model="state.text" id="text" class="form-control"></textarea>
+            <div v-if="state.formErrors.text" class="error-message">Ce champ est requis.</div>
           </div>
           
           <label class="form-label">Réponses possibles :</label>
           <div v-for="(answer, index) in state.possibleAnswers" :key="index" class="mb-3">
             <input type="text" v-model="answer.text" class="form-control" />
+            <div v-if="state.formErrors.answers && !answer.text" class="error-message">Ce champ est requis.</div>
             <div class="form-check">
               <input
                 type="checkbox"
@@ -127,6 +156,9 @@ function convertImageToBase64(file) {
               <label class="form-check-label" :for="'correct-' + index">
                 Réponse correcte
               </label>
+              <div v-if="state.formErrors.oneCorrectAnswer" class="error-message">
+                Veuillez sélectionner une seule réponse correcte.
+              </div>
             </div>
           </div>
           
@@ -223,5 +255,12 @@ function convertImageToBase64(file) {
   /* Ajoutez des styles pour le groupe de boutons, si nécessaire */
   color: white; /* Text color */
 }
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+  }
+
+
 </style>
 

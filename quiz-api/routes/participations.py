@@ -1,6 +1,6 @@
 from flask import Blueprint, request,jsonify
 import sqlite3
-from database.db import removeAllParticipations , saveParticipation, calculateScore
+from database.db import removeAllParticipations , saveParticipation, calculateScore, isUsernameUnique
 from model.models import Participation
 
 participations  = Blueprint('participations ', __name__)
@@ -39,3 +39,16 @@ def delete_all_participations():
     except sqlite3.Error as e:
         return jsonify({"error": str(e)}), 500
     return ('', 204)
+
+@participations.route('/check-username', methods=['POST'])
+def check_username():
+    data = request.get_json()
+    player_name = data.get('playerName')
+
+    if not player_name:
+        return jsonify({"error": "Username is required"}), 400
+
+    if isUsernameUnique(player_name):
+        return jsonify({"isUnique": True}), 200
+    else:
+        return jsonify({"isUnique": False}), 200

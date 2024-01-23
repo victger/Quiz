@@ -325,6 +325,20 @@ def removeAllParticipations():
     finally:
         db_connection.close()
 
+def isUsernameUnique(username):
+    db_connection = sqlite3.connect('./quiz.db')
+    cursor = db_connection.cursor()
+
+    cursor.execute('''
+        SELECT COUNT(*) FROM participation WHERE player_name = ?
+    ''', (username,))
+
+    count = cursor.fetchone()[0]
+
+    db_connection.close()
+
+    return count == 0
+
 def isQuizComplet():
     db_connection = sqlite3.connect('./quiz.db')
     cur = db_connection.cursor()
@@ -399,5 +413,5 @@ def create_tables(db_file):
 
         conn.commit()
         conn.close()
-    except Error as e:
+    except sqlite3.Error as e:
         print(e)
