@@ -50,7 +50,7 @@ function answerClickedHandler(answerIndex) {
   max-height: 500px;
   object-fit: contain;
   border-radius: 8px;
-  border: 3px solid #333;
+  border: 3px solid #7b2a3b;
   display: block;
   margin: 20px auto;
 }
@@ -73,7 +73,10 @@ function answerClickedHandler(answerIndex) {
 }
 
 .answer-item:hover {
-  background-color: #e9e9e9; /* Un léger changement de fond au survol */
+  background-color: #a8a8a8;
+  color: white;
+  transform: translateY(-2px);
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* Vous pouvez retirer .next-button si ce bouton n'est plus utilisé */
