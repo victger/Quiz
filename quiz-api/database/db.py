@@ -315,6 +315,7 @@ def removeAllParticipations():
         cur = db_connection.cursor()
 
         cur.execute("DELETE FROM participation")
+        cur.execute("DELETE FROM participationResult")
     
         db_connection.commit()
     except sqlite3.Error as e:
