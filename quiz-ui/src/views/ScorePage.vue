@@ -38,19 +38,19 @@ onMounted(async () => {
       <h1 class="score-title">Votre Score</h1>
       <p class="score-value">Le score de votre session : <strong>{{ finalScore }}</strong></p>
 
-      <ul class="score-list">
-        <p>Les meilleurs scores</p>
-        <li v-for="scoreEntry in registeredScores" :key="scoreEntry.date" class="score-item">
-          {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
-        </li>
-      </ul>
-
       <p class="ranking" v-if="playerRanking !== null">
         Votre classement : <em>{{ playerRanking }} / {{totalParticipants}}</em>
       </p>
       <p class="ranking" v-else>
         Votre classement : <em>Non disponible</em>
       </p>
+
+      <ul class="score-list">
+        <p>Les meilleurs scores</p>
+        <li v-for="scoreEntry in registeredScores" :key="scoreEntry.date" class="score-item">
+          {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>

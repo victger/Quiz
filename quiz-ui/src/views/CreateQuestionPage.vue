@@ -81,40 +81,67 @@ function convertImageToBase64(file) {
 </script>
 
 <template>
-  <div>
-    <h1>Créer une question</h1>
-
-    <label for="position">Position :</label>
-    <input type="number" v-model="position" id="position" />
-
-    <label for="title">Titre :</label>
-    <input type="text" v-model="title" id="title" />
-
-    <label for="text">Intitulé :</label>
-    <textarea v-model="text" id="text"></textarea>
-
-    <label>Réponses possibles :</label>
-    <div v-for="(answer, index) in possibleAnswers" :key="index">
-      <input type="text" v-model="answer.text" />
-      <label>
-        Réponse correcte
-        <input
-          type="checkbox"
-          v-model="answer.isCorrect"
-          @change="setCorrectAnswer(index)"
-        />
-      </label>
+  <div class="container-mt-3">
+    <div class="row">
+      <div class="col-12">
+        <form>
+          <h1 class="form-title">Créer une question</h1>
+          
+          <div class="mb-3">
+            <label for="position" class="form-label">Position :</label>
+            <input type="number" v-model="position" id="position" class="form-control" />
+          </div>
+          
+          <div class="mb-3">
+            <label for="title" class="form-label">Titre :</label>
+            <input type="text" v-model="title" id="title" class="form-control" />
+          </div>
+          
+          <div class="mb-3">
+            <label for="text" class="form-label">Intitulé :</label>
+            <textarea v-model="text" id="text" class="form-control"></textarea>
+          </div>
+          
+          <label class="form-label">Réponses possibles :</label>
+          <div v-for="(answer, index) in possibleAnswers" :key="index" class="mb-3">
+            <input type="text" v-model="answer.text" class="form-control" />
+            <div class="form-check">
+              <input
+                type="checkbox"
+                v-model="answer.isCorrect"
+                @change="setCorrectAnswer(index)"
+                class="form-check-input"
+                :id="'correct-' + index"
+              />
+              <label class="form-check-label" :for="'correct-' + index">
+                Réponse correcte
+              </label>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="image" class="form-label">Téléverser une image :</label>
+            <input type="file" accept="image/*" @change="handleImageUpload" id="image" class="form-control" />
+          </div>
+          
+          <div v-if="imagePreview" class="mb-3 image-preview-container">
+            <p class="form-label">Aperçu de l'image :</p>
+            <img :src="imagePreview" alt="Image Preview" class="image-preview" style="max-width: 300px;"/>
+          </div>
+          
+          <div class="button-group">
+            <router-link to="/admin" class="btn-cancel">Annuler</router-link>
+            <button type="button" class="btn-save" @click="save">Sauvegarder</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <label for="image">Téléverser une image :</label>
-    <input type="file" accept="image/*" @change="handleImageUpload" id="image" />
-
-    <div v-if="imagePreview">
-      <p>Aperçu de l'image :</p>
-      <img :src="imagePreview" alt="Image Preview" style="max-width: 300px;" />
-    </div>
-
-    <button @click="cancel">Annuler</button>
-    <button @click="save">Sauvegarder</button>
   </div>
 </template>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+
+</style>

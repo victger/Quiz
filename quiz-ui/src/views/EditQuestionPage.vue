@@ -207,6 +207,11 @@ function convertImageToBase64(file) {
   text-align: center; /* Center text within the button */
   text-decoration: none; /* Removes underline */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.btn-save:hover {
+  color: #1556b1;
 }
 
 .form-title {

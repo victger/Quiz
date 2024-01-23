@@ -89,7 +89,8 @@ async function endQuiz() {
   text-align: center
 }
 .question-number{
-  font-family: 'Merriweather', serif;
+  font-family: 'Lobster', cursive;
+  font-weight: bold;
 }
 
 .question-text {
