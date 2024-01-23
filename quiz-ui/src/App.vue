@@ -29,8 +29,8 @@ function logout() {
           <RouterLink to="/" class="nav-link">Home</RouterLink>
         </div>
         <div>
-          <RouterLink v-if="!authStore.isLoggedIn" to="/login">Admin</RouterLink>
-          <button v-else class="nav-link" @click="logout">Déconnexion </button>
+          <RouterLink class="nav-link" v-if="!authStore.isLoggedIn" to="/login">Admin</RouterLink>
+          <button v-else class="btn-primary" @click="logout">Déconnexion </button>
           <RouterLink v-if="authStore.isLoggedIn" to="/admin" class="nav-link">Admin</RouterLink>
         </div>
       </nav>
