@@ -47,7 +47,12 @@ async function deleteQuestion() {
       <ul>
         <li><b>ID : </b>{{ question.id }}</li>
         <li><b>Position : </b>{{ question.position }}</li>
-        <li><b>Image : </b><img v-if="question.image" :src="question.image" alt="Image Question" /></li>
+        <li>
+          <div class="image-container">
+            <strong>Image :</strong>
+            <img v-if="question.image" :src="question.image" alt="Image de la question" />
+          </div>
+        </li>
         <li><b>Texte : </b>{{ question.text }}</li>
         <li><b>Réponses possibles : </b>
           <ul>
@@ -161,6 +166,18 @@ async function deleteQuestion() {
 
 .page-details .answer-list {
   margin-top: 2rem; /* Ajouter plus d'espace au-dessus de la liste des réponses */
+}
+
+.image-container strong {
+  display: block; /* Rend le titre comme un bloc pour qu'il soit sur sa propre ligne */
+  margin-bottom: 0.5rem; /* Ajoute un petit espace sous le titre avant l'image */
+}
+
+.image-container img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  /* Supprimez la marge de l'image ici si vous l'avez définie dans .page-details img */
 }
 </style>
 
