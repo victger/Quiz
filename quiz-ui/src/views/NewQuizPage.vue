@@ -5,11 +5,17 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const username = ref('');
+const errorMessage = ref('');
 
 function launchNewQuiz() {
-  participationStorageService.savePlayerName(username.value);
+  if (username.value.trim() === '') {
+    errorMessage.value = "Vous devez entrer un username.";
+  } else {
+    errorMessage.value = '';  // Réinitialiser le message d'erreur
+    participationStorageService.savePlayerName(username.value);
+    router.push('/questions');
+  }
 }
-
 </script>
 
 <template>
@@ -20,14 +26,14 @@ function launchNewQuiz() {
           <div class="mb-3">
             <label for="usernameInput" class="form-label">Saisissez votre nom :</label>
             <input type="text" class="form-control" id="usernameInput" placeholder="Username" v-model="username"/>
+            <p class="text-danger">{{ errorMessage }}</p>
           </div>
-          <router-link to="/questions"><button type="submit" class="btn-primary" @click="launchNewQuiz">GO!</button></router-link>
+          <button type="button" class="btn-primary" @click="launchNewQuiz">GO!</button>
         </form>
       </div>
     </div>
   </div>
 </template>
-
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400&display=swap');
