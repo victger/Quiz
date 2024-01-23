@@ -44,9 +44,18 @@ def get_quiz_info():
     return jsonify({"size": quiz_size, "scores": scores}), 200
 
 @app.route('/rebuild-db', methods=['POST'])
-def rebuild_db(): 
-	create_tables('quiz.db')
-	return 'Ok', 200 
+def rebuild_db():
+    access_token = request.headers.get('Authorization')
+
+    if not access_token: 
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        create_tables('quiz.db')
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    return 'Ok', 200
 
 @app.route('/login', methods=['POST'])
 def Login():
