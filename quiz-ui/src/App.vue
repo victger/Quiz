@@ -1,3 +1,38 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const token = ref('');
+const isAuthenticated = ref(false);
+const router = useRouter();
+
+router.beforeEach((to, from, next) => {
+  token.value = sessionStorage.getItem('token');
+  isAuthenticated.value = !!token.value;
+  console.log(token.value)
+  console.log(isAuthenticated.value)
+  next();
+});
+
+function handleHomeClick() {
+  if (isAuthenticated.value) {
+    sessionStorage.removeItem('token');
+    isAuthenticated.value = false;
+  }
+}
+
+function handleLogoutClick() {
+  if (isAuthenticated.value) {
+    sessionStorage.removeItem('token');
+    isAuthenticated.value = false;
+    router.push("/");
+  } else {
+    router.push("/login");
+  }
+}
+
+</script>
+
 <template>
   <div class="app">
     <header>
@@ -7,11 +42,10 @@
           <span>CinemaScope</span>
         </div>
         <div class="center-section">
-          <RouterLink to="/" class="nav-link">Home</RouterLink>
-          <!-- Ajoutez d'autres liens ici si nécessaire -->
+          <RouterLink to="/" class="nav-link" @click="handleHomeClick">Home</RouterLink>
         </div>
         <div class="right-section">
-          <RouterLink to="/login" class="nav-link admin-link">Admin</RouterLink>
+          <RouterLink :to="isAuthenticated ? '/' : '/login'" class="nav-link admin-link" @click="handleLogoutClick">{{ isAuthenticated ? 'Logout' : 'Admin' }}</RouterLink>
         </div>
       </nav>
     </header>

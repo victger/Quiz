@@ -43,7 +43,6 @@ const router = createRouter({
       component: AdminHomePage,
       beforeEnter: (to, from, next) => {
         const token = sessionStorage.getItem('token');
-        console.log("Token:", token);
         if (token) {
           next();
         } else {
@@ -54,18 +53,42 @@ const router = createRouter({
     {
       path: '/create-question',
       name: 'create-question',
-      component: CreateQuestionPage
+      component: CreateQuestionPage,
+      beforeEnter: (to, from, next) => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
     },
     {
       path: '/question-detail/:position',
       name: 'question-detail',
       component: QuestionDetail,
+      beforeEnter: (to, from, next) => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
       props : true
     },
     {
       path: '/edit-question/:position',
       name: 'edit-question',
       component: EditQuestionPage,
+      beforeEnter: (to, from, next) => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
       props : true
     }
   ]
