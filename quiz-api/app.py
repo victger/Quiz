@@ -6,6 +6,7 @@ from routes.questions import questions
 from routes.participations import participations 
 from datetime import datetime
 import sqlite3
+from database.db import create_tables
 
 
 app = Flask(__name__)
@@ -43,7 +44,8 @@ def get_quiz_info():
     return jsonify({"size": quiz_size, "scores": scores}), 200
 
 @app.route('/rebuild-db', methods=['POST'])
-def rebuild_db():
+def rebuild_db(): 
+	create_tables('quiz.db')
 	return 'Ok', 200 
 
 @app.route('/login', methods=['POST'])

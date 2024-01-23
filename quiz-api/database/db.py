@@ -340,3 +340,64 @@ def isQuizComplet():
         return -1
     finally:
         db_connection.close()
+
+def create_tables(db_file):
+
+    sql_drop_participation_table = "DROP TABLE IF EXISTS participation;"
+    sql_drop_participationResult_table = "DROP TABLE IF EXISTS participationResult;"
+    sql_drop_possibleanswer_table = "DROP TABLE IF EXISTS possibleanswer;"
+    sql_drop_question_table = "DROP TABLE IF EXISTS question;"
+
+    sql_create_participation_table = """ CREATE TABLE "participation" (
+                                        "id" INTEGER,
+                                        "player_name" TEXT NOT NULL,
+                                        "answer_positions" TEXT NOT NULL,
+                                        "score" INTEGER,
+                                        PRIMARY KEY("id" AUTOINCREMENT)
+                                    ); """
+
+    sql_create_participationResult_table = """CREATE TABLE "participationResult" (
+                                              "id" INTEGER,
+                                              "participation_id" INTEGER,
+                                              "date" TEXT NOT NULL,
+                                              FOREIGN KEY("participation_id") REFERENCES "participation"("id"),
+                                              PRIMARY KEY("id" AUTOINCREMENT)
+                                            );"""
+
+    sql_create_possibleanswer_table = """CREATE TABLE "possibleanswer" (
+                                         "id" INTEGER,
+                                         "question_id" INTEGER NOT NULL,
+                                         "text" TEXT NOT NULL,
+                                         "isCorrect" BOOLEAN NOT NULL,
+                                         FOREIGN KEY("question_id") REFERENCES "question"("id"),
+                                         PRIMARY KEY("id")
+                                       );"""
+
+    sql_create_question_table = """CREATE TABLE "question" (
+                                   "id" INTEGER,
+                                   "text" TEXT NOT NULL,
+                                   "title" VARCHAR(255) NOT NULL,
+                                   "image" TEXT,
+                                   "position" INTEGER NOT NULL,
+                                   PRIMARY KEY("id")
+                                 );"""
+
+
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+
+        c.execute(sql_drop_participation_table)
+        c.execute(sql_drop_participationResult_table)
+        c.execute(sql_drop_possibleanswer_table)
+        c.execute(sql_drop_question_table)
+
+        c.execute(sql_create_participation_table)
+        c.execute(sql_create_participationResult_table)
+        c.execute(sql_create_possibleanswer_table)
+        c.execute(sql_create_question_table)
+
+        conn.commit()
+        conn.close()
+    except Error as e:
+        print(e)
