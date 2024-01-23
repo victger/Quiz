@@ -20,15 +20,17 @@ function logout() {
     <header>
       <nav class="navbar">
         <div class="left-section">
-          <img src="./assets/logo.png" alt="Logo CinemaScope" class="logo" />
-          <span>CinemaScope</span>
+          <RouterLink to="/" class="nav-link-logo" @click="handleHomeClick">
+            <img src="./assets/logo.png" alt="Logo CinemaScope" class="logo" />
+            <span class="cinemascope">CinemaScope</span>
+          </RouterLink>
         </div>
         <div class="center-section">
           <RouterLink to="/" class="nav-link">Home</RouterLink>
         </div>
         <div>
           <RouterLink v-if="!authStore.isLoggedIn" to="/login">Admin</RouterLink>
-          <button v-else @click="logout">Déconnexion</button>
+          <button v-else class="nav-link" @click="logout">Déconnexion</button>
         </div>
       </nav>
     </header>
@@ -73,10 +75,6 @@ function logout() {
   margin-right: 15px;
   border-radius: 30%; /* Moins arrondi que le cercle complet pour une forme plus subtile */
 }
-
-
-
-
 
 .app-main {
   padding: 2rem;
@@ -138,4 +136,26 @@ html, body {
   font-size: 1.2rem; 
 }
 
+.nav-link-logo:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: transparent;
+  visibility: visible;
+  border-radius: 5px;
+  color: #333;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.nav-link-logo:hover {
+  color: #650610; /* Couleur d'accent lors du survol */
+  transition: color 0.3s ease;
+}
+
+.cinemascope{
+  color: #333;
+}
 </style>
