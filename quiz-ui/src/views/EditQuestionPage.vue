@@ -211,7 +211,7 @@ function convertImageToBase64(file) {
 }
 
 .btn-save:hover {
-  color: #144a95;
+  color: #1556b1;
 }
 
 .form-title {
