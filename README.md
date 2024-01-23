@@ -4,19 +4,9 @@ Le but de ce projet est de réaliser une application web proposant un quiz perso
 
 Notre projet se compose de deux parties : La "quiz-api" pour le backend et la "quiz-ui" pour le frontend.
 
-Pour le moment,  nous lançons le projet de cette manière :
-
-On lance l'image Docker de production pour l'API :
-
-docker container run -it --rm -p 5000:5000 --name quiz-prod-api victger/quiz-prod-api
-
-On exécute les commandes suivantes dans le dossier quiz-ui :
-
-npm install
-npm run dev
-
-
 ## Procédure de lancement
+
+Des images Docker ont été prévues pour exécuter ce projet.
 
 ## Back-Office (quiz-api)
 
@@ -38,6 +28,9 @@ METTRE LE SCHEMA DE LA BASE DE DONNEES
 ## Front-Office (quiz-ui)
 
 Le frontend de notre application fonctionne grâce aux stacks Vue, JavaScript, HTML, CSS.
+
+Toutes les interfaces de notre application ont été définies dans le dossier "views". Ces pages sont reliées entre elles grâce à un router qui a été défini dans "index.js".
+De plus, nous faisons appel à notre backend grâce au service "QuizApiService.js" et stockons des informations fondamentales dans "ParticipationStorageService.js". 
 
 
 Ce projet a été réalisé par GHATGHUT Abdelraouf, Victor GERARD et Louis CHAUVIN.
