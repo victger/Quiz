@@ -29,9 +29,13 @@ function logout() {
           <RouterLink to="/" class="nav-link">Home</RouterLink>
         </div>
         <div>
-          <RouterLink class="nav-link" v-if="!authStore.isLoggedIn" to="/login">Admin</RouterLink>
-          <button v-else class="btn-primary" @click="logout">Déconnexion </button>
-          <RouterLink v-if="authStore.isLoggedIn" to="/admin" class="nav-link">Admin</RouterLink>
+          <nav class="nav" :class="{ 'navbar-logged-in': authStore.isLoggedIn }">
+            <RouterLink v-if="authStore.isLoggedIn" to="/admin" class="nav-link">Admin</RouterLink>
+            <RouterLink class="nav-link" v-if="!authStore.isLoggedIn" to="/login">Admin</RouterLink>
+            <button v-else class="btn-primary" @click="logout">Déconnexion </button>
+          </nav>
+          
+          
         </div>
       </nav>
     </header>
@@ -54,16 +58,52 @@ function logout() {
   color: #333; /* Texte en gris foncé pour une bonne lisibilité */
   font-family: 'Lobster', cursive;
 }
+/* ... autres styles ... */
+
+
+
+
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne suivante */
   padding: 10px;
-  background: #ffffff; /* Fond blanc pour le header */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre portée pour donner de la profondeur */
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #333;
+  /* Autres propriétés existantes */
+  min-height: 70px; /* Définissez une hauteur minimale pour votre barre de navigation */
 }
+
+/* Lorsque le bouton de déconnexion est présent, augmentez la hauteur du header. */
+.navbar-logged-in {
+  min-height: 100px; /* Augmentez la hauteur minimale lorsque l'utilisateur est connecté */
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne suivante */
+  padding: 10px;
+  background: #ffffff;
+  color: #333;
+  /* Autres propriétés existantes */
+  min-height: 70px; /* Définissez une hauteur minimale pour votre barre de navigation */
+}
+
+
+.btn-primary:hover {
+  background-color: #5e050e;
+}
+
+/* Assurez-vous que le reste du contenu est correctement espacé par rapport au header élargi. */
+.app-main {
+  padding-top: 3rem; /* Augmentez le padding supérieur pour l'espace supplémentaire du header */
+}
+
 
 .left-section {
   display: flex;
@@ -77,9 +117,6 @@ function logout() {
   border-radius: 30%; /* Moins arrondi que le cercle complet pour une forme plus subtile */
 }
 
-.app-main {
-  padding: 2rem;
-}
 
 html, body {
   margin: 0;

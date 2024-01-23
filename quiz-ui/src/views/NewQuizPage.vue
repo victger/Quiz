@@ -87,22 +87,6 @@ async function launchNewQuiz() {
   font-family: 'Merriweather', sans-serif;
 }
 
-.btn-primary {
-  display: block; /* Block display to fill the width */
-  width: auto; /* Auto width based on content */
-  padding: 0.5rem 1rem; /* Smaller padding for a smaller button */
-  margin: 0 auto; /* Center the button */
-  margin-top: 1rem; /* Space above the button */
-  background-color: #d4af37; /* Button color */
-  color: white; /* Text color */
-  border: none; /* No border */
-  border-radius: 5px; /* Rounded corners */
-  text-align: center; /* Center text within the button */
-  text-decoration: none; /* Removes underline */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  
-}
-
 .form-label {
   color: #fff; /* White text color for the label */
 }
