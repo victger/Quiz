@@ -19,11 +19,10 @@ export default {
 
     if (token) {
       headers.authorization = "Bearer " + token;
-      sessionStorage.setItem("token", token);
     }
 
     return instance({
-      method,
+      method, 
       headers,
       url: resource,
       data,
