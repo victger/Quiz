@@ -55,16 +55,16 @@ async function save() {
       image: imageFile.value ? await convertImageToBase64(imageFile.value) : null,
     };
 
-    // Utilisation du token stocké dans le service QuizApiService
-    await quizApiService.saveQuestion(questionData);
+    const response = await quizApiService.saveQuestion(questionData);
 
-    router.push('/admin');
-  } catch (error) {
-    if (error.response && error.response.status === 400 ) {
-      toast.error("Impossible d'ajouter plus de 10 questions !");
+    if (response.status === 200) {
+      toast.success("Question added");
+      router.push('/admin');
     } else {
-      toast.error("Une erreur est survenue.");
+      toast.error("You can not add more than 10 questions.");
     }
+  } catch (error) {
+    toast.error("Error occured during saving question.");
   }
 }
 
