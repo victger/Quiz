@@ -28,8 +28,18 @@ onMounted(async () => {
     <h1 class="scoreboard-title">Leaderboard</h1>
     <div class="scores-container">
       <ul class="score-list">
-        <li v-for="scoreEntry in registeredScores" :key="scoreEntry.date" class="score-item">
-          {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+        <li v-for="(scoreEntry, index) in registeredScores" :key="scoreEntry.date" class="score-item">
+          <div class="ranking-container">
+            <img src="../assets/bobine.png" class="ranking-image" />
+            <span class="ranking-number">{{ index + 1 }}</span>
+          </div>
+          <div class="score-details">
+            {{ scoreEntry.playerName }} 
+            <span class="stars">
+              <span v-for="n in Math.min(10, scoreEntry.score)" :key="n">&#9733;</span>
+              <span v-for="n in Math.max(0, 10 - scoreEntry.score)" :key="n">&#9734;</span>
+            </span>
+          </div>
         </li>
       </ul>
     </div>
@@ -77,16 +87,16 @@ onMounted(async () => {
 }
 
 .score-item {
-  background-color: #ffffff; /* Fond clair pour les items */
-  color: #333; /* Texte en gris foncé pour une bonne lisibilité */
-  font-family: 'Merriweather', serif;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border: 1px solid #e1e1e1; /* Bordure subtile */
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease; /* Transition pour l'interaction */
-}
+    background-color: rgba(255, 255, 255, 0.1); /* Fond légèrement transparent */
+    color: #000000; /* Texte blanc */
+    border: none; /* Pas de bordure */
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Ombre des items */
+    display: flex;
+    align-items: center; /* Alignement vertical des éléments */
+  }
 
 .quiz-start-container {
   text-align: center;
@@ -119,4 +129,37 @@ onMounted(async () => {
   margin-bottom: 20px;
   font-size: 2.5rem; /* Taille plus grande pour le titre */
 }
+
+.ranking-container {
+    position: relative; /* Position relative pour le conteneur */
+    display: inline-flex; /* Utilisation de flex pour un meilleur alignement */
+    align-items: center; /* Aligner verticalement les éléments */
+    justify-content: center; /* Centrer horizontalement les éléments */
+    margin-right: 15px;
+  }
+
+  .ranking-image {
+    width: 60px;
+    height: auto;
+  }
+
+  .ranking-number {
+    position: absolute; /* Position absolue pour le numéro */
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%); /* Ajuster la position */
+    font-size: 1.4rem; /* Taille de la police pour le numéro */
+    color: #ffbf00; /* Couleur du numéro */
+    font-weight: bold; /* Rendre le numéro plus visible */
+  }
+  .score-details {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; /* Plus grande taille de police pour les détails */
+  }
+
+  .stars {
+    color: #ffd700; /* Couleur des étoiles plus vibrante */
+    margin-left: 10px; /* Espacement entre le nom et les étoiles */
+  }
+
 </style>
