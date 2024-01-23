@@ -136,6 +136,15 @@ html, body {
   font-size: 1.2rem; 
 }
 
+.nav-link-logo {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  position: relative; /* Position relative pour les pseudo-éléments */
+  font-size: 1.2rem;
+}
+
 .nav-link-logo:before {
   content: '';
   position: absolute;
