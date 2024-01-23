@@ -43,13 +43,13 @@ async function deleteQuestion() {
   <div class="page-details">
     <h1>Détails de la question</h1>
     <div v-if="question">
-      <h2>Question {{ question.position }} : {{ question.title }}</h2>
+      <h2><b>Question {{ question.position }} : {{ question.title }}</b></h2>
       <ul>
-        <li>ID : {{ question.id }}</li>
-        <li>Position : {{ question.position }}</li>
-        <li>Image : <img v-if="question.image" :src="question.image" alt="Image Question" /></li>
-        <li>Texte : {{ question.text }}</li>
-        <li>Réponses possibles :
+        <li><b>ID : </b>{{ question.id }}</li>
+        <li><b>Position : </b>{{ question.position }}</li>
+        <li><b>Image : </b><img v-if="question.image" :src="question.image" alt="Image Question" /></li>
+        <li><b>Texte : </b>{{ question.text }}</li>
+        <li><b>Réponses possibles : </b>
           <ul>
             <li class="answer-list" v-for="(answer, index) in question.possibleAnswers" :key="index">
               {{ answer.text }} ({{ answer.isCorrect ? 'Correcte' : 'Incorrecte' }})
@@ -116,6 +116,7 @@ async function deleteQuestion() {
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   margin: 1rem 0;
+  
 }
 
 .page-details button {

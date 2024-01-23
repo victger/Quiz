@@ -53,7 +53,7 @@ function showQuestionDetail(question) {
           @click="showQuestionDetail(question)"
           class="question-item"
         >
-          Question {{ question.position }} : {{ question.text }}
+          <b>Question {{ question.position }}  : </b>{{ question.text }}
         </li>
       </ul>
     </div>
@@ -128,7 +128,7 @@ function showQuestionDetail(question) {
 }
 
 .question-item:hover {
-  background-color: #a8a8a8;
+  background-color: #606060;
   color: white;
   transform: translateY(-2px);
 }
