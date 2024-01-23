@@ -191,6 +191,8 @@ def removeQuestion(questionId):
 
         cur.execute("DELETE FROM question WHERE id = ?", (questionId,))
 
+        cur.execute("DELETE FROM possibleanswer WHERE question_id = ?", (questionId,))
+
         update_positions_after_deletion(cur, deleted_position)
 
         cur.execute("commit")
@@ -315,7 +317,8 @@ def removeAllParticipations():
         cur = db_connection.cursor()
 
         cur.execute("DELETE FROM participation")
-    
+        cur.execute("DELETE FROM participationResult")
+
         db_connection.commit()
     except sqlite3.Error as e:
         db_connection.rollback()
