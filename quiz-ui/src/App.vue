@@ -164,8 +164,4 @@ html, body {
   color: #650610; /* Couleur d'accent lors du survol */
   transition: color 0.3s ease;
 }
-
-.cinemascope{
-  color: #333;
-}
 </style>
