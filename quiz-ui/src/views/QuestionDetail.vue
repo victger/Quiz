@@ -134,6 +134,7 @@ async function deleteQuestion() {
 .page-details button:hover {
   background-color: #5e050e;
   color: #d4af37;
+  transition: all 0.3s ease-in-out 0s;
 }
 
 .page-details .answer-list {

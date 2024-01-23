@@ -120,7 +120,7 @@ function convertImageToBase64(file) {
           
           <div v-if="imagePreview" class="mb-3 image-preview-container">
             <p class="form-label">Aperçu de l'image :</p>
-            <img :src="imagePreview" alt="Image Preview" class="image-preview" />
+            <img :src="imagePreview" alt="Image Preview" class="image-preview" style="max-width: 300px;"/>
           </div>
           
           <div class="button-group">
