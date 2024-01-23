@@ -91,17 +91,9 @@ function handleLogoutClick() {
   border-radius: 30%; /* Moins arrondi que le cercle complet pour une forme plus subtile */
 }
 
-.nav-link {
-  margin: 0 15px;
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-}
 
-.nav-link:hover {
-  color: #650610; /* Couleur d'accent lors du survol */
-  transition: color 0.3s ease;
-}
+
+
 
 .app-main {
   padding: 2rem;
@@ -115,4 +107,52 @@ html, body {
   box-sizing: border-box;
   background: #f5f5f5; /* Assurez-vous que le fond de body correspond au .app */
 }
+
+
+/* ... autres styles ... */
+
+.nav-link {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  position: relative; /* Position relative pour les pseudo-éléments */
+  font-size: 1.2rem;
+}
+
+.nav-link:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: transparent;
+  visibility: hidden;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.nav-link:hover:before {
+  visibility: visible;
+  background-color: #650610;
+}
+
+.nav-link:hover {
+  color: #650610; /* Couleur d'accent lors du survol */
+  transition: color 0.3s ease;
+}
+
+.admin-link:before {
+  background-color: #650610; 
+}
+
+.admin-link:hover:before {
+  background-color: #5e050e;
+}
+
+.admin-link {
+  font-size: 1.2rem; 
+}
+
 </style>
