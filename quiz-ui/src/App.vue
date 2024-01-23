@@ -38,8 +38,11 @@ function handleLogoutClick() {
     <header>
       <nav class="navbar">
         <div class="left-section">
-          <img src="./assets/logo.png" alt="Logo CinemaScope" class="logo" />
-          <span>CinemaScope</span>
+          
+          <RouterLink to="/" class="nav-link-logo" @click="handleHomeClick"><img src="./assets/logo.png" alt="Logo CinemaScope" class="logo" />
+            <span>CinemaScope</span>
+          </RouterLink>
+          
         </div>
         <div class="center-section">
           <RouterLink to="/" class="nav-link" @click="handleHomeClick">Home</RouterLink>
@@ -90,10 +93,6 @@ function handleLogoutClick() {
   margin-right: 15px;
   border-radius: 30%; /* Moins arrondi que le cercle complet pour une forme plus subtile */
 }
-
-
-
-
 
 .app-main {
   padding: 2rem;
@@ -155,4 +154,31 @@ html, body {
   font-size: 1.2rem; 
 }
 
+
+.nav-link-logo {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  position: relative; /* Position relative pour les pseudo-éléments */
+  font-size: 1.2rem;
+}
+
+.nav-link-logo:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: transparent;
+  visibility: hidden;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.nav-link-logo:hover {
+  color: #650610; /* Couleur d'accent lors du survol */
+  transition: color 0.3s ease;
+}
 </style>
