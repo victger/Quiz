@@ -92,40 +92,131 @@ function convertImageToBase64(file) {
 </script>
 
 <template>
-  <div>
-    <h1>Modifier la question</h1>
-
-    <label for="position">Position :</label>
-    <input type="number" v-model="state.position" id="position" />
-
-    <label for="title">Titre :</label>
-    <input type="text" v-model="state.title" id="title" />
-
-    <label for="text">Intitulé :</label>
-    <textarea v-model="state.text" id="text"></textarea>
-
-    <label>Réponses possibles :</label>
-    <div v-for="(answer, index) in state.possibleAnswers" :key="index">
-      <input type="text" v-model="answer.text" />
-      <label>
-        Réponse correcte
-        <input
-          type="checkbox"
-          v-model="answer.isCorrect"
-          @change="setCorrectAnswer(index)"
-        />
-      </label>
+  <div class="container-mt-3">
+    <div class="row">
+      <div class="col-12">
+        <form>
+          <h1 class="form-title">Modifier la question</h1>
+          
+          <div class="mb-3">
+            <label for="position" class="form-label">Position :</label>
+            <input type="number" v-model="state.position" id="position" class="form-control" />
+          </div>
+          
+          <div class="mb-3">
+            <label for="title" class="form-label">Titre :</label>
+            <input type="text" v-model="state.title" id="title" class="form-control" />
+          </div>
+          
+          <div class="mb-3">
+            <label for="text" class="form-label">Intitulé :</label>
+            <textarea v-model="state.text" id="text" class="form-control"></textarea>
+          </div>
+          
+          <label class="form-label">Réponses possibles :</label>
+          <div v-for="(answer, index) in state.possibleAnswers" :key="index" class="mb-3">
+            <input type="text" v-model="answer.text" class="form-control" />
+            <div class="form-check">
+              <input
+                type="checkbox"
+                v-model="answer.isCorrect"
+                @change="setCorrectAnswer(index)"
+                class="form-check-input"
+                :id="'correct-' + index"
+              />
+              <label class="form-check-label" :for="'correct-' + index">
+                Réponse correcte
+              </label>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="image" class="form-label">Téléverser une image :</label>
+            <input type="file" accept="image/*" @change="handleImageUpload" id="image" class="form-control" />
+          </div>
+          
+          <div v-if="state.imagePreview" class="mb-3 image-preview-container">
+            <p class="form-label">Aperçu de l'image :</p>
+            <img :src="state.imagePreview" alt="Image Preview" style="max-width: 300px;" />
+          </div>
+          
+          <div class="button-group">
+            <router-link to="/admin" class="btn-cancel">Annuler</router-link>
+            <button type="button" class="btn-save" @click="save">Sauvegarder</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <label for="image">Téléverser une image :</label>
-    <input type="file" accept="image/*" @change="handleImageUpload" id="image" />
-
-    <div v-if="state.imagePreview">
-      <p>Aperçu de l'image :</p>
-      <img :src="state.imagePreview" alt="Image Preview" style="max-width: 300px;" />
-    </div>
-
-    <button @click="cancel">Annuler</button>
-    <button @click="save">Sauvegarder</button>
   </div>
 </template>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+
+.container-mt-3 {
+  /* Vos styles de container-mt-3 ici, similaires à NewQuizPage */
+  display: flex;
+  justify-content: center;
+  align-items: start; /* Aligns items to the start of the container */
+  padding-top: 10vh; /* Pushes the container down from the top */
+  height: 90vh; /* Takes up less height to move up the content */
+  background: #f5f5f5; /* Background color of the page */
+}
+
+.row {
+  /* Vos styles de row ici, similaires à NewQuizPage */
+  background: #7b2a3b; /* Background color of the form container */
+  padding: 2rem;
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds depth with shadow */
+  max-width: 400px; /* Maximum width of the container */
+  width: 100%; /* Adjusts to the width of the viewport */
+  margin-top: -5vh; /* Negative margin to move the container higher */
+}
+
+.mb-3 {
+  /* Vos styles de mb-3 ici, similaires à NewQuizPage */
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  /* Vos styles de form-control ici, similaires à NewQuizPage */
+  width: 100%; /* Full width of the container */
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e1e1e1; /* Subtle border */
+  border-radius: 5px; /* Rounded corners for the input field */
+  background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+  color: #333; /* Dark text for readability */
+  font-family: 'Merriweather', sans-serif;
+}
+
+.btn-primary, .btn-cancel, .btn-save {
+  /* Vos styles de bouton ici, adaptés pour les différents boutons */
+  display: block; /* Block display to fill the width */
+  width: auto; /* Auto width based on content */
+  padding: 0.5rem 1rem; /* Smaller padding for a smaller button */
+  margin: 0 auto; /* Center the button */
+  margin-top: 1rem; /* Space above the button */
+  background-color: #d4af37; /* Button color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center text within the button */
+  text-decoration: none; /* Removes underline */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.form-title {
+  /* Ajoutez des styles pour le titre du formulaire, si nécessaire */
+  color: white; /* Text color */
+}
+
+.form-check-label {
+  /* Ajoutez des styles pour le groupe de boutons, si nécessaire */
+  color: white; /* Text color */
+}
+</style>
+

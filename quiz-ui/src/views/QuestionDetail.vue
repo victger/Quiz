@@ -51,7 +51,7 @@ async function deleteQuestion() {
         <li>Texte : {{ question.text }}</li>
         <li>Réponses possibles :
           <ul>
-            <li v-for="(answer, index) in question.possibleAnswers" :key="index">
+            <li class="answer-list" v-for="(answer, index) in question.possibleAnswers" :key="index">
               {{ answer.text }} ({{ answer.isCorrect ? 'Correcte' : 'Incorrecte' }})
             </li>
           </ul>
@@ -95,6 +95,7 @@ async function deleteQuestion() {
 .page-details ul {
   list-style: none;
   padding: 0;
+  margin-top: 2rem; /* Ajoutez cette ligne pour l'espacement */
 }
 
 .page-details li {
@@ -104,6 +105,10 @@ async function deleteQuestion() {
   margin-bottom: 0.5rem;
   border-radius: 5px;
   transition: background-color 0.3s;
+}
+
+.title-id{
+  font-weight: bold;
 }
 
 .page-details img {
@@ -132,8 +137,9 @@ async function deleteQuestion() {
 }
 
 .page-details .answer-list {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
+
 
 .page-details .answer-item {
   background-color: #f5f5f5;
@@ -149,6 +155,10 @@ async function deleteQuestion() {
 
 .page-details .answer-item.incorrect {
   background-color: #ffd4d4;
+}
+
+.page-details .answer-list {
+  margin-top: 2rem; /* Ajouter plus d'espace au-dessus de la liste des réponses */
 }
 </style>
 
