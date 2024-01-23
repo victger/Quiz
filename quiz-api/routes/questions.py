@@ -1,7 +1,7 @@
 from flask import Blueprint, request,jsonify
 import sqlite3
 import json
-from database.db import saveQuestion, savePossibleAnswer , retrieveQuestion, retrievePossibleAnswers,updateQuestion, updatePossibleAnswers, removeQuestion, removeAllQuestion
+from database.db import saveQuestion, savePossibleAnswer , retrieveQuestion, retrievePossibleAnswers,updateQuestion, updatePossibleAnswers, removeQuestion, removeAllQuestion, isQuizComplet
 from model.models import Question,PossibleAnswer, serialization
 
 questions = Blueprint('questions', __name__)
@@ -51,6 +51,9 @@ def post_question():
 
     if not access_token: 
         return jsonify({"error": "Unauthorized"}), 401
+    
+    if isQuizComplet() >= 10:
+        return jsonify({"error": "Quiz complet"}), 400
 
     try:
         question = Question(title=data['title'], text=data['text'], image=data['image'], position=data['position'])

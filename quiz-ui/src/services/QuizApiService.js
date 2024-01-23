@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ref } from "vue";
 
 const instance = axios.create({
 	baseURL: 'http://localhost:5000',

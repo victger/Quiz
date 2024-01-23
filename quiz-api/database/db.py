@@ -42,7 +42,6 @@ def saveQuestion(question):
         insert_query = insert_request_generator(question)
         cur.execute(insert_query)
         question_id = cur.lastrowid
-        print(insert_query) 
         cur.execute("commit")
         return question_id
     except sqlite3.Error as e:
@@ -60,7 +59,6 @@ def savePossibleAnswer(possible_answer):
         cur.execute("begin")
         insert_query = insert_request_generator(possible_answer)
         cur.execute(insert_query)
-        print(insert_query)
         cur.execute("commit")
     except sqlite3.Error as e:
         cur.execute("rollback")
@@ -83,7 +81,6 @@ def retrieveQuestion(by, value):
             raise ValueError("Invalid search criteria")
 
         result = cur.fetchone()
-        print(result)
         return obj_from_select_request_generator(result, Question) if result else None
 
     except sqlite3.Error as e:
@@ -249,7 +246,6 @@ def calculateScore(answer_positions):
     cur = db_connection.cursor()
 
     for question_pos, user_answer_position in enumerate(answer_positions, start=1):
-        # print(f"Question Position: {question_pos}, User Answer Position: {user_answer_position}")
 
         cur.execute("""
             SELECT id, isCorrect 
@@ -263,7 +259,6 @@ def calculateScore(answer_positions):
         """, (question_pos,))
 
         possible_answers = cur.fetchall()
-        # print(f"Possible Answers for Question {question_pos}: {possible_answers}")
 
         correct_answer_position = None
         user_answer_correct = False
@@ -274,7 +269,6 @@ def calculateScore(answer_positions):
             if pos + 1 == user_answer_position and isCorrect:
                 user_answer_correct = True
 
-        # print(f"Correct Answer Position: {correct_answer_position}, User Answer Correct: {user_answer_correct}")
 
         if user_answer_correct:
             score += 1
@@ -283,8 +277,6 @@ def calculateScore(answer_positions):
             "correctAnswerPosition": correct_answer_position,
             "wasCorrect": user_answer_correct
         })
-
-    # print(f"Final Score: {score}, Answers Summaries: {answers_summaries}")
 
     db_connection.close()
 
@@ -327,5 +319,21 @@ def removeAllParticipations():
         db_connection.commit()
     except sqlite3.Error as e:
         db_connection.rollback()
+    finally:
+        db_connection.close()
+
+def isQuizComplet():
+    db_connection = sqlite3.connect('./quiz.db')
+    cur = db_connection.cursor()
+
+    try:
+        
+        count_query = "SELECT COUNT(*) FROM question" 
+        cur.execute(count_query)
+        count = cur.fetchone()[0]
+        return count
+    except sqlite3.Error as e:
+        print(f"Error: {e}")
+        return -1
     finally:
         db_connection.close()

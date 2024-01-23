@@ -2,10 +2,13 @@
 import { ref } from 'vue';
 import quizApiService from "@/services/QuizApiService";
 import { useRouter } from "vue-router";
+import { useAuthStore } from '@/stores/auth';
+
 
 const password = ref('');
 const errorMessage = ref('');
 const router = useRouter();
+const authStore = useAuthStore();
 
 async function login() {
   const response = await quizApiService.postLogin(password.value);
@@ -13,6 +16,7 @@ async function login() {
   if (response.status === 200 && response.data.token) {
     // Stocker le token dans le service QuizApiService
     quizApiService.setToken(response.data.token);
+    authStore.login(response.data.token);
     router.push('/admin');
   } else {
     // Afficher un message d'erreur

@@ -1,3 +1,20 @@
+<script setup>
+import { useAuthStore } from '@/stores/auth';
+import { useRouter, RouterLink } from 'vue-router';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+authStore.checkAuth();
+
+function logout() {
+  authStore.logout();
+  router.push('/');
+}
+</script>
+
+
+
 <template>
   <div class="app">
     <header>
@@ -8,10 +25,10 @@
         </div>
         <div class="center-section">
           <RouterLink to="/" class="nav-link">Home</RouterLink>
-          <!-- Ajoutez d'autres liens ici si nécessaire -->
         </div>
-        <div class="right-section">
-          <RouterLink to="/login" class="nav-link admin-link">Admin</RouterLink>
+        <div>
+          <RouterLink v-if="!authStore.isLoggedIn" to="/login">Admin</RouterLink>
+          <button v-else @click="logout">Déconnexion</button>
         </div>
       </nav>
     </header>

@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import quizApiService from "@/services/QuizApiService";
 import { useRouter } from "vue-router";
+import { useToast } from 'vue-toastification';
 
 const router = useRouter();
 const position = ref(1);
@@ -15,7 +16,8 @@ const possibleAnswers = ref([
 ]);
 const imageFile = ref(null);
 const imagePreview = ref(null);
-const correctAnswerIndex = ref(-1); // -1 means no correct answer selected
+const correctAnswerIndex = ref(-1); 
+const toast = useToast();
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
@@ -58,7 +60,11 @@ async function save() {
 
     router.push('/admin');
   } catch (error) {
-    console.error('Error saving question:', error);
+    if (error.response && error.response.status === 400 ) {
+      toast.error("Impossible d'ajouter plus de 10 questions !");
+    } else {
+      toast.error("Une erreur est survenue.");
+    }
   }
 }
 
